@@ -1,0 +1,136 @@
+Solvent_Name,PubChem_CID,PubChem_CommonName,IUPACName,Molecular_Formula,SMILES,Molecular_Weight,LogP,Topological_Polar_Surface_Area,Hydrogen_Bond_Donor_Count,Hydrogen_Bond_Acceptor_Count,Rotatable_Bond_Count,Heavy_Atom_Count,Aromatic_Ring_Count,Fraction_CSP3,Density,Dynamic_Viscosity,Dielectric_Constant,Surface_Tension,Vapor_Pressure,Boiling_Point,Water_Solubility,Hansen_Dispersion,Hansen_Polar,Hansen_Hydrogen,Solvent_Concentration
+"1,1,1-Trichloroethane",6278,"1,1,1-Trichloroethane","1,1,1-trichloroethane",C2H3Cl3,CC(Cl)(Cl)Cl,133.4,2.4,0.0,0,0,0,5.0,0.0,1.0,1.339,0.793,7.5,25.6,13.3,74.1,4400.0,17.0,4.3,2.0,50.0
+"1,2-Dichloroethane",11,"1,2-Dichloroethane","1,2-dichloroethane",C2H4Cl2,C(CCl)Cl,98.96,1.5,0.0,0,0,1,4.0,0.0,1.0,1.253,0.779,10.4,31.9,8.0,83.5,8690.0,19.0,7.4,4.1,50.0
+"1,2-Dimethoxyethane",8071,"1,2-Dimethoxyethane","1,2-dimethoxyethane",C4H10O2,COCCOC,90.12,-0.2,18.5,0,2,3,6.0,0.0,1.0,0.868,0.455,7.2,24.0,6.72,85.0,1000000.0,15.5,5.8,8.4,50.0
+"1,4-Dioxane",31275,"1,4-Dioxane","1,4-dioxane",C4H8O2,C1COCCO1,88.11,-0.3,18.5,0,2,0,6.0,0.0,1.0,1.033,1.177,2.3,33.0,4.95,101.1,1000000.0,19.0,1.8,7.4,50.0
+1-Butanol,263,1-Butanol,butan-1-ol,C4H10O,CCCCO,74.12,0.9,20.2,1,1,2,5.0,0.0,1.0,0.81,2.544,17.8,24.6,0.58,117.7,73000.0,16.0,5.7,15.8,50.0
+1-Chlorobutane,8005,Butyl Chloride,1-chlorobutane,C4H9Cl,CCCCCl,92.57,2.6,0.0,0,0,2,5.0,0.0,1.0,0.886,0.422,7.4,23.1,10.5,78.4,1100.0,,,,50.0
+1-Decanol,8174,1-Decanol,decan-1-ol,C10H22O,CCCCCCCCCCO,158.28,4.6,20.2,1,1,8,11.0,0.0,1.0,0.829,11.4,8.1,28.5,0.001,233.0,37.0,16.0,4.3,10.0,50.0
+1-Heptanol,8129,Heptanol,heptan-1-ol,C7H16O,CCCCCCCO,116.2,2.7,20.2,1,1,5,8.0,0.0,1.0,0.822,5.81,11.8,26.7,0.036,176.0,1670.0,16.0,5.3,11.7,50.0
+1-Hexanol,8103,1-Hexanol,hexan-1-ol,C6H14O,CCCCCCO,102.17,2.0,20.2,1,1,4,7.0,0.0,1.0,0.814,4.578,13.0,25.8,0.093,157.6,5900.0,15.9,5.8,12.5,50.0
+1-Nonanol,8914,1-Nonanol,nonan-1-ol,C9H20O,CCCCCCCCCO,144.25,4.3,20.2,1,1,7,10.0,0.0,1.0,0.827,9.12,8.8,28.3,0.004,213.0,140.0,16.0,4.6,10.7,50.0
+1-Octanol,957,1-Octanol,octan-1-ol,C8H18O,CCCCCCCCO,130.23,3.0,20.2,1,1,6,9.0,0.0,1.0,0.824,7.288,10.3,27.5,0.011,195.0,540.0,16.0,5.0,11.2,50.0
+1-Pentanol,6276,1-Pentanol,pentan-1-ol,C5H12O,CCCCCO,88.15,1.6,20.2,1,1,3,6.0,0.0,1.0,0.814,3.619,13.9,25.4,0.259,138.0,22000.0,15.9,4.5,13.9,50.0
+1-Propanol,1031,1-Propanol,propan-1-ol,C3H8O,CCCO,60.1,0.3,20.2,1,1,1,4.0,0.0,1.0,0.804,1.945,20.3,23.3,1.99,97.2,1000000.0,16.0,6.8,17.4,50.0
+2-Butanol,6568,(+-)-2-Butanol,butan-2-ol,C4H10O,CCC(C)O,74.12,0.6,20.2,1,1,1,5.0,0.0,1.0,0.808,3.096,16.6,23.5,1.67,99.5,181000.0,15.8,5.7,14.5,50.0
+2-Hexanone,11583,2-Hexanone,hexan-2-one,C6H12O,CCCCC(=O)C,100.16,1.4,17.1,0,1,3,7.0,0.0,0.833,0.811,0.583,14.1,25.2,1.13,127.0,14000.0,,,,50.0
+2-Methyltetrahydrofuran,7301,2-Methyltetrahydrofuran,2-methyloxolane,C5H10O,CC1CCCO1,86.13,1.0,9.2,0,1,0,6.0,0.0,1.0,0.855,0.46,6.2,24.8,10.7,80.3,140000.0,16.9,5.0,4.3,50.0
+2-Pentanol,22386,2-Pentanol,pentan-2-ol,C5H12O,CCCC(C)O,88.15,1.2,20.2,1,1,2,6.0,0.0,1.0,0.809,3.47,13.1,23.5,0.76,119.0,45000.0,15.6,5.0,13.3,50.0
+2-Pentanone,7895,2-Pentanone,pentan-2-one,C5H10O,CCCC(=O)C,86.13,0.9,17.1,0,1,2,6.0,0.0,0.8,0.809,0.473,15.4,25.0,3.37,102.0,43000.0,15.8,7.6,4.7,50.0
+2-Propanol,3776,Isopropanol,propan-2-ol,C3H8O,CC(C)O,60.1,0.3,20.2,1,1,0,4.0,0.0,1.0,0.786,2.038,19.9,21.7,4.4,82.6,1000000.0,15.8,6.1,16.4,50.0
+3-Pentanol,11428,3-Pentanol,pentan-3-ol,C5H12O,CCC(CC)O,88.15,1.2,20.2,1,1,2,6.0,0.0,1.0,0.821,3.35,13.4,24.0,0.93,115.5,55000.0,15.8,5.2,13.1,50.0
+3-Pentanone,7288,Ethyl ketone,pentan-3-one,C5H10O,CCC(=O)CC,86.13,0.9,17.1,0,1,2,6.0,0.0,0.8,0.814,0.444,17.0,24.7,3.53,102.0,34000.0,15.8,7.6,4.7,50.0
+Acetaldehyde,177,Acetaldehyde,acetaldehyde,C2H4O,CC=O,44.05,-0.3,17.1,0,1,0,3.0,0.0,0.5,0.785,0.215,21.1,21.2,100.7,20.2,1000000.0,,,,50.0
+Acetic acid,176,Acetic Acid,acetic acid,C2H4O2,CC(=O)O,60.05,-0.2,37.3,1,2,0,4.0,0.0,0.5,1.049,1.056,6.15,27.1,1.5,117.9,1000000.0,14.5,8.0,13.5,50.0
+Acetone,180,Acetone,propan-2-one,C3H6O,CC(=O)C,58.08,-0.1,17.1,0,1,0,4.0,0.0,0.667,0.791,0.306,20.7,25.2,24.6,56.1,1000000.0,15.5,10.4,7.0,50.0
+Acetonitrile,6342,Acetonitrile,acetonitrile,C2H3N,CC#N,41.05,0.0,23.8,0,1,0,3.0,0.0,0.5,0.786,0.369,37.5,29.3,9.7,82.0,1000000.0,15.3,18.0,6.1,50.0
+Acetophenone,7410,Acetophenone,1-phenylethanone,C8H8O,CC(=O)C1=CC=CC=C1,120.15,1.6,17.1,0,1,1,9.0,1.0,0.125,1.028,1.681,17.4,39.8,0.045,202.0,5500.0,19.6,8.6,3.7,50.0
+Allyl alcohol,7858,Allyl Alcohol,prop-2-en-1-ol,C3H6O,C=CCO,58.08,0.2,20.2,1,1,1,4.0,0.0,0.333,0.854,1.218,19.7,25.3,2.63,97.1,1000000.0,,,,50.0
+Amyl acetate,12348,Amyl Acetate,pentyl acetate,C7H14O2,CCCCCOC(=O)C,130.18,1.9,26.3,0,2,5,9.0,0.0,0.857,0.876,0.862,4.8,25.7,0.45,149.0,1730.0,,,,50.0
+Aniline,6115,Aniline,aniline,C6H7N,C1=CC=C(C=C1)N,93.13,0.9,26.0,1,1,0,7.0,1.0,0.0,1.022,3.71,6.89,43.4,0.04,184.1,36000.0,19.4,5.1,10.2,50.0
+Anisole,7519,Anisole,anisole,C7H8O,COC1=CC=CC=C1,108.14,2.1,9.2,0,1,1,8.0,1.0,0.143,0.995,1.056,4.3,35.1,0.47,154.0,1540.0,17.8,4.1,6.7,50.0
+Benzaldehyde,240,Benzaldehyde,benzaldehyde,C7H6O,C1=CC=C(C=C1)C=O,106.12,1.5,17.1,0,1,1,8.0,1.0,0.0,1.044,1.39,17.8,38.9,0.17,178.1,6950.0,,,,50.0
+Benzene,241,Benzene,benzene,C6H6,C1=CC=CC=C1,78.11,2.1,0.0,0,0,0,6.0,1.0,0.0,0.879,0.603,2.28,28.9,10.0,80.1,1790.0,18.4,0.0,2.0,50.0
+Benzonitrile,7505,Benzonitrile,benzonitrile,C7H5N,C1=CC=C(C=C1)C#N,103.12,1.6,23.8,0,1,0,8.0,1.0,0.0,1.01,1.267,25.2,39.0,0.12,191.0,2000.0,17.4,9.0,3.3,50.0
+Benzyl alcohol,244,Benzyl Alcohol,phenylmethanol,C7H8O,C1=CC=C(C=C1)CO,108.14,1.1,20.2,1,1,1,8.0,1.0,0.143,1.044,5.47,13.0,39.0,0.013,205.3,40000.0,18.4,6.3,13.7,50.0
+Butyl acetate,31272,Butyl Acetate,butyl acetate,C6H12O2,CCCCOC(=O)C,116.16,1.8,26.3,0,2,4,8.0,0.0,0.833,0.882,0.685,5.1,25.1,1.17,126.1,6800.0,15.8,3.7,6.3,50.0
+Butylamine,8007,Butylamine,butan-1-amine,C4H11N,CCCCN,73.14,1.0,26.0,1,1,2,5.0,0.0,1.0,0.74,0.574,4.9,23.4,9.3,77.8,1000000.0,,,,50.0
+Butyraldehyde,261,Butanal,butanal,C4H8O,CCCC=O,72.11,0.9,17.1,0,1,2,5.0,0.0,0.75,0.803,0.38,13.4,,11.6,74.8,71000.0,,,,50.0
+Butyric acid,264,Butyric Acid,butanoic acid,C4H8O2,CCCC(=O)O,88.11,0.8,37.3,1,2,2,6.0,0.0,0.75,0.964,1.54,2.97,26.5,0.1,163.8,1000000.0,14.9,4.1,10.6,50.0
+Butyronitrile,8008,Butyronitrile,butanenitrile,C4H7N,CCCC#N,69.11,0.5,23.8,0,1,1,5.0,0.0,0.75,0.794,0.553,24.3,28.1,1.65,117.6,33000.0,15.3,12.4,5.1,50.0
+Carbon disulfide,6348,Carbon Disulfide,methanedithione,CS2,C(=S)=S,76.15,2.1,64.2,0,2,0,3.0,0.0,0.0,1.263,0.352,2.63,32.3,35.8,46.3,2160.0,20.5,0.0,0.6,50.0
+Carbon tetrachloride,5943,Carbon Tetrachloride,tetrachloromethane,CCl4,C(Cl)(Cl)(Cl)Cl,153.8,2.8,0.0,0,0,0,5.0,0.0,1.0,1.594,0.908,2.24,27.0,11.9,76.7,793.0,17.8,0.0,0.6,50.0
+Chlorobenzene,7964,Chlorobenzene,chlorobenzene,C6H5Cl,C1=CC=C(C=C1)Cl,112.55,2.9,0.0,0,0,0,7.0,1.0,0.0,1.106,0.756,5.62,33.6,1.6,131.7,498.0,19.0,4.3,2.0,50.0
+Chloroform,6212,Chloroform,chloroform,CHCl3,C(Cl)(Cl)Cl,119.37,2.3,0.0,0,0,0,4.0,0.0,1.0,1.489,0.537,4.81,27.5,21.1,61.2,7950.0,17.8,3.1,5.7,50.0
+Cumene,7406,Cumene,cumene,C9H12,CC(C)C1=CC=CC=C1,120.19,3.7,0.0,0,0,1,9.0,1.0,0.333,0.862,0.737,2.38,28.2,0.61,152.4,61.0,18.1,1.2,1.2,50.0
+Cyclohexane,8078,Cyclohexane,cyclohexane,C6H12,C1CCCCC1,84.16,3.4,0.0,0,0,0,6.0,0.0,1.0,0.779,0.894,2.02,25.2,10.4,80.7,55.0,16.8,0.0,0.2,50.0
+Cyclohexanol,7966,Cyclohexanol,cyclohexanol,C6H12O,C1CCC(CC1)O,100.16,1.2,20.2,1,1,0,7.0,0.0,1.0,0.962,41.07,15.0,33.4,0.065,161.1,36000.0,17.4,4.1,13.5,50.0
+Cyclohexanone,7967,Cyclohexanone,cyclohexanone,C6H10O,C1CCC(=O)CC1,98.14,0.8,17.1,0,1,0,7.0,0.0,0.833,0.947,2.02,18.3,34.4,0.53,155.6,23000.0,17.8,6.3,5.1,50.0
+Cyclopentane,9253,Cyclopentane,cyclopentane,C5H10,C1CCCC1,70.13,3.0,0.0,0,0,0,5.0,0.0,1.0,0.751,0.413,1.97,22.6,34.5,49.3,156.0,16.4,0.0,0.0,50.0
+Cyclopentanol,7298,Cyclopentanol,cyclopentanol,C5H10O,C1CCC(C1)O,86.13,0.8,20.2,1,1,0,6.0,0.0,1.0,0.949,5.16,18.5,32.7,0.35,140.9,1000000.0,,,,50.0
+Cyclopentanone,8452,Cyclopentanone,cyclopentanone,C5H8O,C1CCC(=O)C1,84.12,0.4,17.1,0,1,0,6.0,0.0,0.8,0.949,1.07,13.6,33.3,1.2,130.6,1000000.0,,,,50.0
+Cyclopentyl methyl ether,138539,Cyclopentyl methyl ether,methoxycyclopentane,C6H12O,COC1CCCC1,100.16,1.3,9.2,0,1,1,7.0,0.0,1.0,0.86,0.55,4.8,24.6,5.56,106.0,15000.0,,,,50.0
+Decane,15600,Decane,decane,C10H22,CCCCCCCCCC,142.28,5.0,0.0,0,0,7,10.0,0.0,1.0,0.73,0.838,1.99,23.8,0.17,174.1,0.052,15.7,0.0,0.0,50.0
+Dibutyl ether,8909,Butyl ether,1-butoxybutane,C8H18O,CCCCOCCCC,130.23,3.2,9.2,0,1,6,9.0,0.0,1.0,0.769,0.637,3.1,23.0,0.67,141.0,300.0,,,,50.0
+Dichloromethane,6344,Dichloromethane,dichloromethane,CH2Cl2,C(Cl)Cl,84.93,1.5,0.0,0,0,0,3.0,0.0,1.0,1.327,0.413,8.93,26.5,46.5,39.6,17500.0,18.2,6.3,6.1,50.0
+Diethyl ether,3283,Diethyl Ether,ethoxyethane,C4H10O,CCOCC,74.12,0.9,9.2,0,1,2,5.0,0.0,1.0,0.713,0.224,4.3,17.1,58.6,34.6,69000.0,14.5,2.9,5.1,50.0
+Diethylamine,8021,Diethylamine,N-ethylethanamine,C4H11N,CCNCC,73.14,0.6,12.0,1,1,2,5.0,0.0,1.0,0.707,0.346,3.6,19.8,25.9,55.5,1000000.0,,,,50.0
+Diethylene glycol dimethyl ether,8150,Diglyme,1-methoxy-2-(2-methoxyethoxy)ethane,C6H14O3,COCCOCCOC,134.17,-0.4,27.7,0,3,6,9.0,0.0,1.0,0.943,1.089,7.2,28.8,0.39,162.0,1000000.0,,,,50.0
+Diisobutyl ketone,7958,Isobutyl ketone,"2,6-dimethylheptan-4-one",C9H18O,CC(C)CC(=O)CC(C)C,142.24,2.5,17.1,0,1,4,10.0,0.0,0.889,0.806,1.04,9.9,24.1,0.23,169.4,430.0,,,,50.0
+Diisopropyl ether,7914,Diisopropyl Ether,2-propan-2-yloxypropane,C6H14O,CC(C)OC(C)C,102.17,1.5,9.2,0,1,2,7.0,0.0,1.0,0.724,0.379,3.9,18.0,15.9,68.5,12000.0,,,,50.0
+Diisopropylamine,7912,Diisopropylamine,N-propan-2-ylpropan-2-amine,C6H15N,CC(C)NC(C)C,101.19,1.4,12.0,1,1,2,7.0,0.0,1.0,0.722,0.393,2.9,19.6,7.3,84.0,1000000.0,,,,50.0
+Dimethyl carbonate,12021,Dimethyl Carbonate,dimethyl carbonate,C3H6O3,COC(=O)OC,90.08,0.5,35.5,0,3,2,6.0,0.0,0.333,1.073,0.585,3.1,28.5,5.7,90.1,139000.0,15.5,8.6,9.7,50.0
+Dimethyl sulfoxide,679,Dimethyl Sulfoxide,methylsulfinylmethane,C2H6OS,CS(=O)C,78.14,-0.6,36.3,0,2,0,4.0,0.0,1.0,1.1,1.996,46.7,43.5,0.06,189.0,1000000.0,18.4,16.4,10.2,50.0
+Dipropyl ether,8114,Propyl ether,1-propoxypropane,C6H14O,CCCOCCC,102.17,2.0,9.2,0,1,4,7.0,0.0,1.0,0.736,0.396,3.4,20.5,7.93,90.0,4900.0,,,,50.0
+Dodecane,8182,Dodecane,dodecane,C12H26,CCCCCCCCCCCC,170.33,6.1,0.0,0,0,9,12.0,0.0,1.0,0.75,1.383,2.01,25.4,0.018,216.3,0.0034,16.0,0.0,0.0,50.0
+Ethanol,702,Ethanol,ethanol,C2H6O,CCO,46.07,-0.1,20.2,1,1,0,3.0,0.0,1.0,0.789,1.074,24.6,22.1,5.95,78.4,1000000.0,15.8,8.8,19.4,50.0
+Ethyl acetate,8857,Ethyl Acetate,ethyl acetate,C4H8O2,CCOC(=O)C,88.11,0.7,26.3,0,2,2,6.0,0.0,0.667,0.902,0.426,6.0,23.9,10.0,77.1,83000.0,15.8,5.3,7.2,50.0
+Ethyl benzoate,7165,Ethyl benzoate,ethyl benzoate,C9H10O2,CCOC(=O)C1=CC=CC=C1,150.17,2.6,26.3,0,2,3,11.0,1.0,0.222,1.047,2.01,6.0,35.0,0.023,213.0,710.0,,,,50.0
+Ethyl butyrate,7762,Ethyl butyrate,ethyl butanoate,C6H12O2,CCCC(=O)OCC,116.16,1.3,26.3,0,2,4,8.0,0.0,0.833,0.879,0.639,5.1,24.5,1.3,121.0,5100.0,,,,50.0
+Ethyl propionate,7749,Ethyl Propionate,ethyl propanoate,C5H10O2,CCC(=O)OCC,102.13,1.2,26.3,0,2,3,7.0,0.0,0.75,0.891,0.501,5.6,23.8,3.53,99.0,19000.0,,,,50.0
+Ethylamine,6341,Ethylamine,ethanamine,C2H7N,CCN,45.08,-0.3,26.0,1,1,0,3.0,0.0,1.0,0.689,0.28,8.7,,,16.6,1000000.0,,,,50.0
+Ethylbenzene,7500,Ethylbenzene,ethylbenzene,C8H10,CCC1=CC=CC=C1,106.16,3.1,0.0,0,0,1,8.0,1.0,0.25,0.867,0.631,2.41,29.2,1.28,136.2,169.0,17.8,0.6,1.4,50.0
+Ethylene carbonate,7303,Ethylene carbonate,"1,3-dioxolan-2-one",C3H4O3,C1COC(=O)O1,88.06,0.3,35.5,0,3,0,6.0,0.0,0.667,1.321,1.93,89.8,48.0,,248.0,1000000.0,19.4,21.7,5.1,50.0
+Ethylene glycol,174,Ethylene Glycol,"ethane-1,2-diol",C2H6O2,C(CO)O,62.07,-1.4,40.5,2,2,1,4.0,0.0,1.0,1.113,16.1,37.7,47.7,0.008,197.3,1000000.0,17.0,11.0,26.0,50.0
+Fluorobenzene,10008,Fluorobenzene,fluorobenzene,C6H5F,C1=CC=C(C=C1)F,96.1,2.3,0.0,0,1,0,7.0,1.0,0.0,1.024,0.55,5.42,26.7,7.0,85.0,1540.0,17.7,5.4,2.0,50.0
+Formaldehyde,712,Formaldehyde,formaldehyde,CH2O,C=O,30.026,1.2,17.1,0,1,0,2.0,0.0,0.0,0.815,0.23,2.8,,,-19.0,1000000.0,,,,50.0
+Formamide,713,Formamide,formamide,CH3NO,C(=O)N,45.041,-0.8,43.1,1,1,0,3.0,0.0,0.0,1.133,3.343,111.0,58.2,0.01,210.0,1000000.0,17.2,26.2,19.0,50.0
+Formic acid,284,Formic Acid,formic acid,CH2O2,C(=O)O,46.025,-0.2,37.3,1,2,0,3.0,0.0,0.0,1.22,1.607,58.5,37.6,4.4,100.8,1000000.0,14.3,11.9,16.6,50.0
+Gamma-butyrolactone,7302,Gamma-Butyrolactone,oxolan-2-one,C4H6O2,C1CC(=O)OC1,86.09,-0.6,26.3,0,2,0,6.0,0.0,0.75,1.129,1.73,39.0,44.6,0.043,204.0,1000000.0,19.0,16.6,7.4,50.0
+Glycerol,753,Glycerol,"propane-1,2,3-triol",C3H8O3,C(C(CO)O)O,92.09,-1.8,60.7,3,3,2,6.0,0.0,1.0,1.261,1412.0,42.5,63.4,3e-05,290.0,1000000.0,17.4,12.1,29.3,50.0
+Heptane,8900,Heptane,heptane,C7H16,CCCCCCC,100.2,4.4,0.0,0,0,4,7.0,0.0,1.0,0.684,0.387,1.92,20.1,4.7,98.4,2.24,15.3,0.0,0.0,50.0
+Hexamethylphosphoramide,12679,Hexamethylphosphoramide,N-[bis(dimethylamino)phosphoryl]-N-methylmethanamine,C6H18N3OP,CN(C)P(=O)(N(C)C)N(C)C,179.2,0.3,26.8,0,4,3,11.0,0.0,1.0,1.03,3.47,30.0,34.0,0.007,233.0,1000000.0,,,,50.0
+Hexane,8058,Hexane,hexane,C6H14,CCCCCC,86.18,3.9,0.0,0,0,3,6.0,0.0,1.0,0.659,0.3,1.88,18.4,16.2,69.0,9.5,14.9,0.0,0.0,50.0
+Hexanoic acid,8892,Hexanoic Acid,hexanoic acid,C6H12O2,CCCCCC(=O)O,116.16,1.9,37.3,1,2,4,8.0,0.0,0.833,0.929,2.82,2.63,27.6,0.011,205.0,9680.0,,,,50.0
+Isobutanol,6560,Isobutanol,2-methylpropan-1-ol,C4H10O,CC(C)CO,74.12,0.8,20.2,1,1,1,5.0,0.0,1.0,0.802,3.33,17.9,22.9,1.21,108.0,85000.0,15.1,5.7,16.0,50.0
+Isobutyl acetate,8038,Isobutyl Acetate,2-methylpropyl acetate,C6H12O2,CC(C)COC(=O)C,116.16,1.8,26.3,0,2,3,8.0,0.0,0.833,0.871,0.67,5.3,23.7,1.87,117.0,6300.0,15.1,3.7,6.3,50.0
+Isooctane,10907,"2,2,4-Trimethylpentane","2,2,4-trimethylpentane",C8H18,CC(C)CC(C)(C)C,114.23,3.8,0.0,0,0,2,8.0,0.0,1.0,0.692,0.474,1.94,18.8,5.13,99.0,2.44,14.3,0.0,0.0,50.0
+Isopropyl acetate,7915,Isopropyl Acetate,propan-2-yl acetate,C5H10O2,CC(C)OC(=O)C,102.13,0.9,26.3,0,2,2,7.0,0.0,0.75,0.874,0.476,5.6,22.3,6.0,88.6,31000.0,14.9,4.5,7.0,50.0
+Mesitylene,7947,Mesitylene,"1,3,5-trimethylbenzene",C9H12,CC1=CC(=CC(=C1)C)C,120.19,3.4,0.0,0,0,0,9.0,1.0,0.333,0.865,0.666,2.27,28.8,0.33,164.7,48.0,18.0,0.6,0.6,50.0
+Methanol,887,Methanol,methanol,CH4O,CO,32.042,-0.5,20.2,1,1,0,2.0,0.0,1.0,0.791,0.544,32.7,22.1,13.02,64.7,1000000.0,15.1,12.3,22.3,50.0
+Methyl acetate,6584,Methyl Acetate,methyl acetate,C3H6O2,CC(=O)OC,74.08,0.2,26.3,0,2,1,5.0,0.0,0.5,0.934,0.364,6.7,24.8,21.6,56.9,319000.0,15.5,7.2,7.6,50.0
+Methyl benzoate,7150,Methyl Benzoate,methyl benzoate,C8H8O2,COC(=O)C1=CC=CC=C1,136.15,2.1,26.3,0,2,2,10.0,1.0,0.125,1.094,1.857,6.6,37.0,0.052,199.0,2100.0,,,,50.0
+Methyl ethyl ketone,6569,Methyl Ethyl Ketone,butan-2-one,C4H8O,CCC(=O)C,72.11,0.3,17.1,0,1,1,5.0,0.0,0.75,0.805,0.405,18.5,24.6,10.5,79.6,223000.0,16.0,9.0,5.1,50.0
+Methyl isobutyl ketone,7909,Methyl Isobutyl Ketone,4-methylpentan-2-one,C6H12O,CC(C)CC(=O)C,100.16,1.3,17.1,0,1,2,7.0,0.0,0.833,0.801,0.585,13.1,23.6,2.09,117.0,19000.0,15.3,6.1,4.1,50.0
+Methyl tert-butyl ether,15413,tert-Butyl methyl ether,2-methoxy-2-methylpropane,C5H12O,CC(C)(C)OC,88.15,0.9,9.2,0,1,1,6.0,0.0,1.0,0.74,0.36,2.6,19.4,27.0,55.2,42000.0,14.8,4.3,5.0,50.0
+Methylamine,6329,Methylamine,methanamine,CH5N,CN,31.057,-0.7,26.0,1,1,0,2.0,0.0,1.0,0.656,0.23,9.4,,,-6.3,1000000.0,,,,50.0
+Methylcyclohexane,7962,Methylcyclohexane,methylcyclohexane,C7H14,CC1CCCCC1,98.19,3.6,0.0,0,0,0,7.0,0.0,1.0,0.77,0.679,2.02,23.3,4.9,101.0,14.0,16.0,0.0,0.0,50.0
+Morpholine,8083,Morpholine,morpholine,C4H9NO,C1COCCN1,87.12,-0.9,21.3,1,2,0,6.0,0.0,1.0,1.0,2.02,7.42,38.0,1.07,128.9,1000000.0,18.8,4.9,9.2,50.0
+"N,N-Dimethylacetamide",31374,Dimethylacetamide,"N,N-dimethylacetamide",C4H9NO,CC(=O)N(C)C,87.12,-0.8,20.3,0,1,0,6.0,0.0,0.75,0.937,0.927,37.8,33.3,0.173,165.0,1000000.0,16.8,11.5,10.2,50.0
+"N,N-Dimethylformamide",6228,Dimethylformamide,"N,N-dimethylformamide",C3H7NO,CN(C)C=O,73.09,-1.0,20.3,0,1,0,5.0,0.0,0.667,0.944,0.802,36.7,37.1,0.36,153.0,1000000.0,17.4,13.7,11.3,50.0
+N-Methyl-2-pyrrolidone,13387,N-methyl-2-pyrrolidone,1-methylpyrrolidin-2-one,C5H9NO,CN1CCCC1=O,99.13,-0.5,20.3,0,1,0,7.0,0.0,0.6,1.028,1.666,32.2,40.7,0.039,202.0,1000000.0,18.0,12.3,7.2,50.0
+Nitrobenzene,7416,Nitrobenzene,nitrobenzene,C6H5NO2,C1=CC=C(C=C1)[N+](=O)[O-],123.11,1.9,45.8,0,2,0,9.0,1.0,0.0,1.204,1.863,34.8,43.9,0.025,210.8,1900.0,20.0,8.6,4.1,50.0
+Nitroethane,6587,Nitroethane,1-nitroethane,C2H5NO2,CC[N+](=O)[O-],75.07,0.2,45.8,0,2,0,5.0,0.0,0.5,1.052,0.677,28.1,32.2,2.0,114.0,45000.0,16.0,15.5,4.5,50.0
+Nitromethane,6375,Nitromethane,nitromethane,CH3NO2,C[N+](=O)[O-],61.04,0.1,45.8,0,2,0,4.0,0.0,1.0,1.138,0.63,35.9,36.5,3.61,101.2,111000.0,15.8,18.8,5.1,50.0
+Nonane,8141,Nonane,nonane,C9H20,CCCCCCCCC,128.25,4.5,0.0,0,0,6,9.0,0.0,1.0,0.718,0.665,1.97,22.8,0.47,150.8,0.22,15.7,0.0,0.0,50.0
+Octane,356,Octane,octane,C8H18,CCCCCCCC,114.23,3.9,0.0,0,0,5,8.0,0.0,1.0,0.703,0.508,1.95,21.6,1.47,125.7,0.66,15.5,0.0,0.0,50.0
+Pentane,8003,Pentane,pentane,C5H12,CCCCC,72.15,3.4,0.0,0,0,2,5.0,0.0,1.0,0.626,0.224,1.84,16.0,56.8,36.1,38.0,14.5,0.0,0.0,50.0
+Phenol,996,Phenol,phenol,C6H6O,C1=CC=C(C=C1)O,94.11,1.5,20.2,1,1,0,7.0,1.0,0.0,1.071,3.437,9.8,40.9,0.036,181.7,82800.0,18.0,5.9,14.9,50.0
+Piperidine,8082,Piperidine,piperidine,C5H11N,C1CCNCC1,85.15,0.8,12.0,1,1,0,6.0,0.0,1.0,0.862,1.36,4.3,29.5,3.2,106.0,1000000.0,,,,50.0
+Propionaldehyde,527,Propanal,propanal,C3H6O,CCC=O,58.08,0.6,17.1,0,1,1,4.0,0.0,0.667,0.805,0.325,18.5,,30.7,49.0,306000.0,,,,50.0
+Propionic acid,1032,Propionic Acid,propanoic acid,C3H6O2,CCC(=O)O,74.08,0.3,37.3,1,2,1,5.0,0.0,0.667,0.99,1.03,3.4,26.2,0.47,141.2,1000000.0,14.7,5.3,12.4,50.0
+Propionitrile,7854,Propionitrile,propanenitrile,C3H5N,CCC#N,55.08,0.2,23.8,0,1,0,4.0,0.0,0.667,0.782,0.404,28.9,26.8,4.27,97.4,103000.0,15.3,14.3,5.5,50.0
+Propiophenone,7148,1-Phenyl-1-propanone,1-phenylpropan-1-one,C9H10O,CCC(=O)C1=CC=CC=C1,134.17,2.2,17.1,0,1,2,10.0,1.0,0.222,1.009,1.86,16.0,36.6,0.013,218.0,1700.0,,,,50.0
+Propyl acetate,7997,Propyl Acetate,propyl acetate,C5H10O2,CCCOC(=O)C,102.13,1.2,26.3,0,2,3,7.0,0.0,0.75,0.888,0.544,5.5,24.3,3.33,101.5,18900.0,15.3,4.3,7.6,50.0
+Propylamine,7852,Propylamine,propan-1-amine,C3H9N,CCCN,59.11,0.5,26.0,1,1,1,4.0,0.0,1.0,0.719,0.35,5.1,,,49.0,1000000.0,,,,50.0
+Propylene carbonate,7924,Propylene Carbonate,"4-methyl-1,3-dioxolan-2-one",C4H6O3,CC1COC(=O)O1,102.09,-0.4,35.5,0,3,0,7.0,0.0,0.75,1.205,2.53,64.0,41.4,0.004,242.0,175000.0,20.0,18.0,4.1,50.0
+Propylene glycol,1030,Propylene Glycol,"propane-1,2-diol",C3H8O2,CC(CO)O,76.09,-0.9,40.5,2,2,1,5.0,0.0,1.0,1.036,40.4,32.0,36.5,0.013,188.2,1000000.0,16.8,9.4,23.3,50.0
+Pyridine,1049,Pyridine,pyridine,C5H5N,C1=CC=NC=C1,79.1,0.7,12.9,0,1,0,6.0,1.0,0.0,0.982,0.879,12.4,38.0,2.0,115.2,1000000.0,19.0,8.8,5.9,50.0
+Pyrrolidine,31268,Pyrrolidine,pyrrolidine,C4H9N,C1CCNC1,71.12,0.5,12.0,1,1,0,5.0,0.0,1.0,0.866,0.704,8.0,28.6,8.4,87.0,1000000.0,,,,50.0
+Styrene,7501,Styrene,styrene,C8H8,C=CC1=CC=CC=C1,104.15,2.9,0.0,0,0,1,8.0,1.0,0.0,0.909,0.695,2.43,32.0,0.67,145.0,300.0,18.6,1.0,4.1,50.0
+Sulfolane,31347,Sulfolane,"thiolane 1,1-dioxide",C4H8O2S,C1CCS(=O)(=O)C1,120.17,-0.8,42.5,0,2,0,7.0,0.0,1.0,1.261,10.3,43.3,35.5,0.001,287.3,1000000.0,20.3,18.2,9.9,50.0
+Tetrachloroethylene,31373,Tetrachloroethylene,"1,1,2,2-tetrachloroethene",C2Cl4,C(=C(Cl)Cl)(Cl)Cl,165.8,3.4,0.0,0,0,0,6.0,0.0,0.0,1.623,0.844,2.28,31.7,1.87,121.3,150.0,19.0,6.5,2.9,50.0
+Tetrahydrofuran,8028,Tetrahydrofuran,oxolane,C4H8O,C1CCOC1,72.11,0.5,9.2,0,1,0,5.0,0.0,1.0,0.889,0.456,7.6,26.4,21.6,66.0,1000000.0,16.8,5.7,8.0,50.0
+Toluene,1140,Toluene,toluene,C7H8,CC1=CC=CC=C1,92.14,2.7,0.0,0,0,0,7.0,1.0,0.143,0.867,0.56,2.38,28.5,2.9,110.6,526.0,18.0,1.4,2.0,50.0
+Trichloroethylene,6575,Trichloroethylene,"1,1,2-trichloroethene",C2HCl3,C(=C(Cl)Cl)Cl,131.38,2.6,0.0,0,0,0,5.0,0.0,0.0,1.462,0.545,3.42,29.4,7.76,87.2,1100.0,18.0,3.1,5.3,50.0
+Triethylamine,8471,Triethylamine,"N,N-diethylethanamine",C6H15N,CCN(CC)CC,101.19,1.4,3.2,0,1,3,7.0,0.0,1.0,0.726,0.347,2.42,20.2,7.0,88.8,133000.0,15.5,0.4,1.0,50.0
+Trifluoroacetic acid,6422,Trifluoroacetic acid,"2,2,2-trifluoroacetic acid",C2HF3O2,C(=O)(C(F)(F)F)O,114.02,0.9,37.3,1,5,0,7.0,0.0,0.5,1.489,0.808,8.55,13.6,11.1,72.4,1000000.0,,,,50.0
+Trifluorotoluene,7368,(Trifluoromethyl)benzene,trifluoromethylbenzene,C7H5F3,C1=CC=C(C=C1)C(F)(F)F,146.11,3.0,0.0,0,3,0,10.0,1.0,0.143,1.189,0.55,9.2,24.4,3.93,103.0,450.0,,,,50.0
+Valeric acid,7991,Pentanoic Acid,pentanoic acid,C5H10O2,CCCCC(=O)O,102.13,1.4,37.3,1,2,3,7.0,0.0,0.8,0.939,2.01,2.66,27.0,0.03,186.1,24000.0,,,,50.0
+Water,962,Water,oxidane,H2O,O,18.015,-0.5,1.0,1,1,0,1.0,0.0,0.0,0.998,1.002,80.1,72.8,2.34,100.0,1000000.0,15.5,16.0,42.3,50.0
+m-Xylene,7929,M-Xylene,"1,3-xylene",C8H10,CC1=CC(=CC=C1)C,106.16,3.2,0.0,0,0,0,8.0,1.0,0.25,0.864,0.581,2.37,28.9,1.1,139.1,161.0,17.4,1.0,3.1,50.0
+o-Dichlorobenzene,7239,"1,2-Dichlorobenzene","1,2-dichlorobenzene",C6H4Cl2,C1=CC=C(C(=C1)Cl)Cl,147.0,3.4,0.0,0,0,0,8.0,1.0,0.0,1.306,1.324,9.93,37.0,0.18,180.5,145.0,19.2,6.3,3.3,50.0
+o-Xylene,7237,O-Xylene,"1,2-xylene",C8H10,CC1=CC=CC=C1C,106.16,3.1,0.0,0,0,0,8.0,1.0,0.25,0.88,0.76,2.57,30.1,0.88,144.4,178.0,17.8,1.0,3.1,50.0
+p-Xylene,7809,P-Xylene,"1,4-xylene",C8H10,CC1=CC=C(C=C1)C,106.16,3.2,0.0,0,0,0,8.0,1.0,0.25,0.861,0.603,2.27,28.3,1.17,138.4,162.0,17.1,1.0,3.1,50.0
+tert-Butanol,6386,tert-Butanol,2-methylpropan-2-ol,C4H10O,CC(C)(C)O,74.12,0.5,20.2,1,1,0,5.0,0.0,1.0,0.789,3.35,12.5,20.4,4.1,82.4,1000000.0,15.2,5.1,14.7,50.0
+tert-Butyl acetate,10908,tert-Butyl acetate,tert-butyl acetate,C6H12O2,CC(=O)OC(C)(C)C,116.16,1.8,26.3,0,2,2,8.0,0.0,0.833,0.866,0.62,5.0,22.4,4.13,98.0,7000.0,,,,50.0

@@ -1,0 +1,18 @@
+# Core dependencies
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+scipy>=1.11
+statsmodels>=0.14
+matplotlib>=3.7
+seaborn>=0.12
+plotly>=5.15
+jupyter
+ipykernel
+openpyxl
+requests
+streamlit
+
+# Note: xgboost and shap are NOT included by default.
+# They are installed conditionally by the pipeline ONLY if n > 30 (Tier C).
+# See src/data_size_gate.py for details.
