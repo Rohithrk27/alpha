@@ -187,29 +187,22 @@ if 'X_scaled_novel' not in st.session_state: st.session_state.X_scaled_novel = N
 st.sidebar.title("⚙️ Global Settings")
 st.sidebar.info("Welcome to the **Solvent Toxicity Prediction Framework**.\n\nNavigate through the tabs in the main window to construct and deploy your machine learning models.")
 
-import streamlit.components.v1 as components
-def switch_tab(tab_name):
-    components.html(
-        f"""
-        <script>
-        setTimeout(function() {{
-            var tabs = window.parent.document.querySelectorAll('button[data-testid="stTab"]');
-            for (var i = 0; i < tabs.length; i++) {{
-                if (tabs[i].innerText.includes('{tab_name}')) {{
-                    tabs[i].click();
-                    break;
-                }}
-            }}
-        }}, 50);
-        </script>
-        """,
-        height=0
-    )
+if 'current_tab' not in st.session_state: st.session_state.current_tab = "Phase 1"
 
-tab1, tab2, tab3 = st.tabs(["📊 Phase 1: Data Initialization", "🧠 Phase 2: Model Training", "🔮 Phase 3: High-Throughput Screening"])
+tcol1, tcol2, tcol3 = st.columns(3)
+if tcol1.button("📊 Phase 1: Data Initialization", use_container_width=True, type="primary" if st.session_state.current_tab == "Phase 1" else "secondary"):
+    st.session_state.current_tab = "Phase 1"
+    st.rerun()
+if tcol2.button("🧠 Phase 2: Model Training", use_container_width=True, type="primary" if st.session_state.current_tab == "Phase 2" else "secondary"):
+    st.session_state.current_tab = "Phase 2"
+    st.rerun()
+if tcol3.button("🔮 Phase 3: High-Throughput Screening", use_container_width=True, type="primary" if st.session_state.current_tab == "Phase 3" else "secondary"):
+    st.session_state.current_tab = "Phase 3"
+    st.rerun()
+st.markdown("<hr style='margin-top: -10px;'/>", unsafe_allow_html=True)
 
 # --- PAGE 1: Data Upload & EDA ---
-with tab1:
+if st.session_state.current_tab == "Phase 1":
     st.header("Phase 1: Data Initialization & Validation")
     st.markdown("Before building toxicity models, we need a clean, structured dataset. Follow the steps below to initialize your solvent data, attach experimental conditions, and fetch molecular descriptors.")
     st.divider()
@@ -439,10 +432,11 @@ with tab1:
                         st.session_state.recommendation = st.session_state.recommendation_engine.analyze_dataset(X_selected, y)
                         st.success("Data processed and ready for modeling!")
                         if st.button("Proceed to Phase 2 ➔", type="primary"):
-                            switch_tab("Phase 2")
+                            st.session_state.current_tab = "Phase 2"
+                            st.rerun()
 
 # --- PAGE 2: Model Training & Eval ---
-with tab2:
+if st.session_state.current_tab == "Phase 2":
     st.header("Phase 2: Model Training & Evaluation")
     
     if st.session_state.recommendation is None:
@@ -511,10 +505,11 @@ with tab2:
             
             st.divider()
             if st.button("Proceed to Phase 3: High-Throughput Screening ➔", type="primary"):
-                switch_tab("Phase 3")
+                st.session_state.current_tab = "Phase 3"
+                st.rerun()
 
 # --- PAGE 3: Prediction & Inference ---
-with tab3:
+if st.session_state.current_tab == "Phase 3":
     st.header("Phase 3: High-Throughput Screening")
     
     if st.session_state.best_models is None:
