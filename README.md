@@ -5,8 +5,7 @@ A hybrid experimental–machine learning framework capable of predicting the tox
 
 The software is intentionally designed to scale from small proof-of-concept datasets to large experimental and literature-derived datasets without requiring structural modifications, using a dynamic **Model Recommendation Engine**.
 
-For a conceptual, non-technical breakdown of how this AI framework works and why it is highly relevant to modern biotechnology and wet-lab research, please read the [Biotech Explanation Document](explanation.md).
-
+For a conceptual, non-technical breakdown of how this AI framework works and why it is highly relevant to modern biotechnology and wet-lab research, please read the [Biotech Explanation Document](explanation.md). This document also includes a detailed breakdown of the **Core Molecular Descriptors** prioritized by the AI (such as LogP, Dielectric Constant, and Hansen Parameters) and their biological significance.
 ## Architecture (Version 3.0)
 The system operates on a highly modular architecture located in `src/`:
 - **`data_manager.py`**: Experimental dataset loading, handling dynamically scaling numbers of biological targets.
