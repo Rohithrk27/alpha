@@ -607,27 +607,32 @@ if st.session_state.current_tab == "Phase 3":
                             try:
                                 from rdkit import Chem
                                 from rdkit.Chem import Draw
+                                from PIL import Image
                                 import base64
                                 from io import BytesIO
                                 
                                 img_tags = []
+                                any_valid = False
                                 for s in smiles_list:
-                                    if pd.isna(s) or str(s).strip() in ["Unknown", "nan", ""]:
-                                        img_tags.append("N/A")
-                                    else:
-                                        mol = Chem.MolFromSmiles(str(s).strip())
-                                        if mol:
-                                            img = Draw.MolToImage(mol, size=(150, 150))
-                                            buffered = BytesIO()
-                                            img.save(buffered, format="PNG")
-                                            img_str = base64.b64encode(buffered.getvalue()).decode()
-                                            # Streamlit ImageColumn expects the raw Data URI, not an HTML tag
-                                            img_tags.append(f'data:image/png;base64,{img_str}')
-                                        else:
-                                            img_tags.append("https://dummyimage.com/150x150/ffffff/ff0000.png&text=Invalid")
-                                results_df.insert(1, "Structure", img_tags)
-                                results_df["_SMILES"] = smiles_list
-                                idx_insert = 2
+                                    img_data = None  # None renders as blank in Streamlit ImageColumn
+                                    if pd.notna(s) and str(s).strip() not in ["Unknown", "nan", ""]:
+                                        try:
+                                            mol = Chem.MolFromSmiles(str(s).strip())
+                                            if mol:
+                                                img = Draw.MolToImage(mol, size=(150, 150))
+                                                buffered = BytesIO()
+                                                img.save(buffered, format="PNG")
+                                                img_str = base64.b64encode(buffered.getvalue()).decode()
+                                                img_data = f'data:image/png;base64,{img_str}'
+                                                any_valid = True
+                                        except Exception:
+                                            img_data = None
+                                    img_tags.append(img_data)
+                                
+                                if any_valid:
+                                    results_df.insert(1, "Structure", img_tags)
+                                    results_df["_SMILES"] = smiles_list
+                                    idx_insert = 2
                             except ImportError:
                                 pass
                         

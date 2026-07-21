@@ -47,7 +47,14 @@ class PredictionEngine:
         # Fallback to API for any solvents or columns still missing
         df_new = self.descriptor_engine.enrich_dataset(df_new, "solvent_name")
         
-        # Keep track of failed fetches
+        # Normalize SMILES column — the offline DB may name it 'SMILES', 'smiles', or 'IsomericSMILES'
+        for smiles_variant in ["IsomericSMILES", "smiles", "SMILES"]:
+            if smiles_variant in df_new.columns and "SMILES" not in df_new.columns:
+                df_new.rename(columns={smiles_variant: "SMILES"}, inplace=True)
+            elif smiles_variant in df_new.columns and smiles_variant != "SMILES":
+                # Fill blanks in SMILES from the variant column
+                df_new["SMILES"] = df_new["SMILES"].fillna(df_new[smiles_variant])
+        
         if "SMILES" not in df_new.columns:
             df_new["SMILES"] = ""
         df_new["SMILES"] = df_new["SMILES"].fillna("")
