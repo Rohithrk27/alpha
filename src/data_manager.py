@@ -19,15 +19,25 @@ class DataManager:
                 self.raw_data = file_or_df.copy()
             else:
                 is_excel = False
-                if hasattr(file_or_df, "name") and file_or_df.name.endswith((".xlsx", ".xls")):
+                if hasattr(file_or_df, "name") and file_or_df.name.lower().endswith((".xlsx", ".xls")):
                     is_excel = True
-                elif isinstance(file_or_df, str) and file_or_df.endswith((".xlsx", ".xls")):
+                elif isinstance(file_or_df, str) and file_or_df.lower().endswith((".xlsx", ".xls")):
                     is_excel = True
                     
                 if is_excel:
                     self.raw_data = pd.read_excel(file_or_df)
                 else:
-                    self.raw_data = pd.read_csv(file_or_df)
+                    try:
+                        self.raw_data = pd.read_csv(file_or_df)
+                    except UnicodeDecodeError:
+                        if hasattr(file_or_df, "seek"):
+                            file_or_df.seek(0)
+                        try:
+                            self.raw_data = pd.read_csv(file_or_df, encoding='latin1')
+                        except UnicodeDecodeError:
+                            if hasattr(file_or_df, "seek"):
+                                file_or_df.seek(0)
+                            self.raw_data = pd.read_csv(file_or_df, encoding='utf-16')
             logger.info(f"Successfully loaded data with {len(self.raw_data)} rows.")
             self.processed_data = self.raw_data.copy()
             return self.raw_data
