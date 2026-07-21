@@ -656,8 +656,9 @@ if st.session_state.current_tab == "Phase 3":
                         results_df.sort_values(by="_sort_val", ascending=False, inplace=True)
                         results_df.drop(columns=["_sort_val"], inplace=True)
                         
-                        # Reset index for clean display
+                        # Reset index and shift by 1 for clean 1-based ranking display
                         results_df.reset_index(drop=True, inplace=True)
+                        results_df.index = results_df.index + 1
                         
                         # Set up UI columns
                         col_config_pred = {}
