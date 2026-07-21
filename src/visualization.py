@@ -182,3 +182,85 @@ class VisualizationEngine:
         fig.tight_layout()
         return fig
 
+    def plot_combined_bar_charts(self, predictions_df: pd.DataFrame, experimental_df: pd.DataFrame, top_n: int = 15) -> plt.Figure:
+        """Plots a combined bar chart of predicted top solvents and experimental baseline solvents."""
+        # Get target columns
+        target_preds = [c for c in predictions_df.columns if "_Prediction" in c]
+        n_targets = len(target_preds)
+        
+        if n_targets == 0:
+            return None
+            
+        fig, axes = plt.subplots(n_targets, 1, figsize=(14, 7 * n_targets))
+        if n_targets == 1:
+            axes = [axes]
+            
+        # Get experimental solvents
+        exp_df = experimental_df.copy()
+        # Rename experimental columns to match prediction for easy plotting
+        exp_solvents = set([s.strip().lower() for s in exp_df['solvent_name']])
+        
+        # Get top predicted novel solvents (that aren't in experimental)
+        pred_df = predictions_df.copy()
+        novel_preds = []
+        for _, row in pred_df.iterrows():
+            if str(row['solvent_name']).strip().lower() not in exp_solvents:
+                novel_preds.append(row)
+            if len(novel_preds) >= top_n:
+                break
+        novel_df = pd.DataFrame(novel_preds)
+        
+        for ax, pred_col in zip(axes, target_preds):
+            target_name = pred_col.replace("_Prediction", "")
+            unc_col = f"{target_name}_Uncertainty"
+            
+            # Experimental data for this target
+            exp_vals = []
+            exp_names = []
+            if target_name in exp_df.columns:
+                # Sort experimental by target performance
+                sorted_exp = exp_df.sort_values(by=target_name, ascending=False)
+                exp_names = sorted_exp['solvent_name'].tolist()
+                exp_vals = sorted_exp[target_name].tolist()
+                
+            # Novel data for this target
+            novel_names = novel_df['solvent_name'].tolist() if not novel_df.empty else []
+            novel_vals = novel_df[pred_col].tolist() if not novel_df.empty else []
+            novel_errs = novel_df[unc_col].tolist() if not novel_df.empty and unc_col in novel_df.columns else [0]*len(novel_vals)
+            
+            # Combine them
+            all_names = exp_names + novel_names
+            all_vals = exp_vals + novel_vals
+            all_errs = [0]*len(exp_vals) + novel_errs
+            all_colors = ['#94a3b8']*len(exp_vals) + ['#3b82f6']*len(novel_vals) # Gray for Exp, Blue for Novel
+            
+            x_pos = np.arange(len(all_names))
+            bars = ax.bar(x_pos, all_vals, yerr=all_errs, capsize=5, color=all_colors, alpha=0.8, edgecolor='black')
+            
+            # Formatting
+            title_text = f"Experimental Baseline vs. Novel Predictions: {target_name.replace('_', ' ').title()}"
+            ax.set_title(title_text, fontsize=18, pad=20, fontweight='bold', color='#1e3a8a')
+            ax.set_ylabel(f"Value", fontsize=14)
+            ax.set_xticks(x_pos)
+            ax.set_xticklabels(all_names, rotation=45, ha='right', fontsize=12)
+            
+            # Add value labels
+            max_y = ax.get_ylim()[1]
+            for i, v in enumerate(all_vals):
+                label_y = v + all_errs[i] + (max_y * 0.02)
+                ax.text(i, label_y, f"{v:.1f}", ha='center', va='bottom', fontsize=10, fontweight='bold', color='black')
+                
+            # Legend
+            from matplotlib.patches import Patch
+            legend_elements = [
+                Patch(facecolor='#94a3b8', edgecolor='black', label='Known Experimental'),
+                Patch(facecolor='#3b82f6', edgecolor='black', label='Novel AI Prediction')
+            ]
+            ax.legend(handles=legend_elements, loc='upper right')
+            
+            ax.set_ylim(0, max_y * 1.15)
+            ax.grid(axis='y', linestyle='--', alpha=0.7)
+            
+        fig.tight_layout()
+        return fig
+

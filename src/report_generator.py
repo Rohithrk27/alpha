@@ -1,7 +1,7 @@
 import os
 from fpdf import FPDF
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 
 class ReportGenerator:
     """Generates PDF lab reports from models and predictions."""
@@ -24,7 +24,7 @@ class ReportGenerator:
         pdf.set_font("Arial", 'B', 24)
         pdf.cell(0, 15, "Solvent Predictor Lab Report", ln=True, align="C")
         pdf.set_font("Arial", 'I', 10)
-        pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M')}", ln=True, align="C")
+        pdf.cell(0, 10, f"Generated on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC", ln=True, align="C")
         pdf.ln(10)
         
         # Section 1: Top Predictions
@@ -56,6 +56,36 @@ class ReportGenerator:
             pdf.ln()
             
         pdf.ln(10)
+        
+        # Section 1.5: Top Recommended Structures
+        if 'structures' in img_paths and img_paths['structures']:
+            pdf.set_font("Arial", 'B', 16)
+            pdf.cell(0, 10, "Top Recommended Chemical Structures", ln=True)
+            pdf.set_font("Arial", '', 10)
+            pdf.multi_cell(0, 8, "2D structural representations of the highly recommended novel solvents.")
+            pdf.ln(5)
+            
+            struct_imgs = img_paths['structures']
+            img_w = 50
+            x_start = 15
+            y_start = pdf.get_y()
+            for i, img_path in enumerate(struct_imgs):
+                if i >= 3:
+                    break
+                if os.path.exists(img_path):
+                    pdf.image(img_path, x=x_start + (i * (img_w + 10)), y=y_start, w=img_w)
+            
+            # Manually advance the Y cursor since pdf.image doesn't
+            pdf.set_y(y_start + img_w + 10)
+            pdf.ln(5)
+            
+        # Section 1.8: Experimental vs Predicted Comparison
+        if 'combined_bar' in img_paths and os.path.exists(img_paths['combined_bar']):
+            pdf.add_page()
+            pdf.set_font("Arial", 'B', 16)
+            pdf.cell(0, 10, "Experimental Baseline vs. Novel Predictions", ln=True)
+            pdf.image(img_paths['combined_bar'], x=15, w=180)
+            pdf.ln(10)
         
         # Section 2: Chemical Space
         if 'pca' in img_paths and os.path.exists(img_paths['pca']):

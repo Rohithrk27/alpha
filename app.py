@@ -612,10 +612,10 @@ if st.session_state.current_tab == "Phase 3":
                                 
                                 img_tags = []
                                 for s in smiles_list:
-                                    if pd.isna(s) or s == "Unknown":
+                                    if pd.isna(s) or str(s).strip() in ["Unknown", "nan", ""]:
                                         img_tags.append("N/A")
                                     else:
-                                        mol = Chem.MolFromSmiles(s)
+                                        mol = Chem.MolFromSmiles(str(s).strip())
                                         if mol:
                                             img = Draw.MolToImage(mol, size=(150, 150))
                                             buffered = BytesIO()
@@ -626,6 +626,7 @@ if st.session_state.current_tab == "Phase 3":
                                         else:
                                             img_tags.append("https://dummyimage.com/150x150/ffffff/ff0000.png&text=Invalid")
                                 results_df.insert(1, "Structure", img_tags)
+                                results_df["_SMILES"] = smiles_list
                                 idx_insert = 2
                             except ImportError:
                                 pass
@@ -754,6 +755,30 @@ if st.session_state.current_tab == "Phase 3":
                             shap_path = os.path.join(temp_dir, "shap.png")
                             fig_shap.savefig(shap_path, bbox_inches='tight', dpi=150)
                             img_paths['shap'] = shap_path
+                            
+                        # Generate Combined Bar Chart
+                        fig_combined = st.session_state.visualization_engine.plot_combined_bar_charts(results_df, st.session_state.data_manager.processed_data)
+                        if fig_combined:
+                            combined_path = os.path.join(temp_dir, "combined_bar.png")
+                            fig_combined.savefig(combined_path, bbox_inches='tight')
+                            img_paths['combined_bar'] = combined_path
+                            
+                        # Generate Structure Images for Top 3
+                        struct_paths = []
+                        if "_SMILES" in results_df.columns:
+                            try:
+                                from rdkit import Chem
+                                from rdkit.Chem import Draw
+                                for i, s in enumerate(results_df["_SMILES"].head(3)):
+                                    if pd.notna(s) and str(s).strip() not in ["Unknown", "nan", ""]:
+                                        mol = Chem.MolFromSmiles(str(s).strip())
+                                        if mol:
+                                            img_path = os.path.join(temp_dir, f"struct_{i}.png")
+                                            Draw.MolToFile(mol, img_path, size=(250, 250))
+                                            struct_paths.append(img_path)
+                            except ImportError:
+                                pass
+                        img_paths['structures'] = struct_paths
                         
                         generator = ReportGenerator(output_dir=temp_dir)
                         pdf_path = generator.generate_report(st.session_state.evaluation_results, st.session_state.best_models, results_df, img_paths)
