@@ -567,6 +567,11 @@ if st.session_state.current_tab == "Phase 3":
                 )
                 prediction_df = pred_engine.fetch_descriptors(solvent_list)
                 st.session_state.prediction_df = prediction_df
+                # Save the SMILES map right now before the user can edit them away
+                if "SMILES" in prediction_df.columns:
+                    st.session_state.smiles_map = dict(zip(prediction_df["solvent_name"].str.strip().str.lower(), prediction_df["SMILES"]))
+                else:
+                    st.session_state.smiles_map = {}
                 st.session_state.pred_results = None # Reset previous prediction results
                 st.session_state.X_scaled_novel = None
                 st.rerun()
@@ -601,9 +606,14 @@ if st.session_state.current_tab == "Phase 3":
                     
                     results_df, X_scaled_novel, smiles_list = pred_engine.predict_df(edited_pred_df)
                     
+                    # Rebuild SMILES from saved map (survives data editor edits)
+                    smiles_map = st.session_state.get("smiles_map", {})
+                    if smiles_map:
+                        smiles_list = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
+                    
                     if not results_df.empty:                        # Insert chemical structure images if available
                         idx_insert = 1
-                        if smiles_list:
+                        if any(s for s in smiles_list if s and str(s).strip() not in ["", "nan"]):
                             try:
                                 from rdkit import Chem
                                 from rdkit.Chem import Draw
