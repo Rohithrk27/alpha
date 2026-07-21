@@ -4,8 +4,25 @@ from src.utils import setup_logger
 
 logger = setup_logger(__name__)
 
+# ── HARDCODED BIOLOGICAL DESCRIPTOR PRIORITY LIST ───────────────────────────
+# These are the 4 descriptors explicitly chosen by the researcher based on
+# biological importance for predicting whole-cell Pichia kudriavzevii response.
+# Ranked: LogP > Dielectric Constant > Water Solubility > Dynamic Viscosity
+MANDATED_DESCRIPTORS = [
+    ['xlogp', 'logp'],          # Rank 1: Membrane partitioning (lipophilicity)
+    ['dielectric_constant'],    # Rank 2: Solvent polarity
+    ['water_solubility'],       # Rank 3: Aqueous-phase partitioning
+    ['dynamic_viscosity', 'viscosity'],  # Rank 4: Mass transfer / diffusivity
+]
+
 class FeatureSelector:
-    """Removes constant and highly correlated features."""
+    """Selects the 4 mandated biological descriptors for model training.
+    
+    For small datasets (<20 rows), the selector is hardcoded to the 4
+    researcher-specified descriptors to prevent overfitting and ensure
+    biological interpretability. For larger datasets, standard correlation-
+    based pruning is applied after the mandated descriptors are secured.
+    """
     
     def __init__(self, correlation_threshold: float = 0.9):
         self.correlation_threshold = correlation_threshold
@@ -15,64 +32,65 @@ class FeatureSelector:
         logger.info("Starting feature selection...")
         X_new = X.copy()
         
-        # Remove constant features
+        # Remove constant features first
         constant_cols = [col for col in X_new.columns if X_new[col].nunique() <= 1]
         X_new.drop(columns=constant_cols, inplace=True)
         logger.info(f"Dropped {len(constant_cols)} constant features.")
         
-        # Adjust correlation threshold dynamically based on sample size
         n_samples = len(X_new)
-        dynamic_threshold = self.correlation_threshold
-        if n_samples < 20:
-            logger.info(f"Small dataset ({n_samples} rows) detected. Aggressively selecting only essential descriptors.")
-            # Explicitly lock onto the top ranked biological descriptors for small datasets to prevent overfitting
-            # Ranked strictly by biological importance (LogP > Polarity > Solubility > Viscosity > HSP > Surface Tension > MW)
-            ranked_essentials = [
-                'xlogp', 'logp',                            # Rank 1: Membrane partitioning
-                'dielectric_constant',                      # Rank 2: Polarity
-                'water_solubility',                         # Rank 3: Aqueous partitioning
-                'dynamic_viscosity', 'viscosity',           # Rank 4: Mass transfer
-                'hansen_dispersion', 'hansen_polar', 'hansen_hydrogen', 'hildebrand_parameter', # Rank 5: HSP
-                'surface_tension',                          # Rank 6: Wetting
-                'molecular_weight'                          # Rank 7: Size
-            ]
-            
-            cols_to_keep = []
-            for candidate in ranked_essentials:
-                # Find matching columns in X_new (case insensitive)
-                matches = [c for c in X_new.columns if c.lower() == candidate and c not in cols_to_keep]
-                cols_to_keep.extend(matches)
-                if len(cols_to_keep) >= 4:
+
+        # ── MANDATED SELECTION (always applied, regardless of dataset size) ──
+        # Walk the priority list in rank order. For each rank group, find the
+        # first matching column in X_new (case-insensitive). Collect exactly
+        # one representative per rank until all 4 ranks are satisfied.
+        cols_to_keep = []
+        missing_ranks = []
+        for rank_aliases in MANDATED_DESCRIPTORS:
+            found = None
+            for alias in rank_aliases:
+                matches = [c for c in X_new.columns if c.lower() == alias]
+                if matches:
+                    found = matches[0]
                     break
-            
-            # Strictly cap at 4 features to prevent Curse of Dimensionality on small datasets
-            cols_to_keep = cols_to_keep[:4]
-            
-            # If we somehow found zero essentials, fallback to the first 2 numeric columns
-            if not cols_to_keep:
-                numeric_cols = X_new.select_dtypes(include=['number']).columns.tolist()
-                cols_to_keep = numeric_cols[:2]
-                
-            cols_to_drop = [c for c in X_new.columns if c not in cols_to_keep]
-            X_new.drop(columns=cols_to_drop, inplace=True)
-        else:
-            # Remove highly correlated features (only for numeric columns)
-            numeric_cols = X_new.select_dtypes(include=['number']).columns
-            corr_matrix = X_new[numeric_cols].corr().abs()
-            
-            upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-            to_drop = [column for column in upper.columns if any(upper[column] > dynamic_threshold)]
-            
-            X_new.drop(columns=to_drop, inplace=True)
-            logger.info(f"Dropped {len(to_drop)} highly correlated features (threshold={self.correlation_threshold}).")
-        
+            if found:
+                cols_to_keep.append(found)
+            else:
+                missing_ranks.append(rank_aliases[0])
+
+        if missing_ranks:
+            logger.warning(
+                f"Could not find the following mandated descriptors in the data: "
+                f"{missing_ranks}. They may not have been fetched from PubChem or "
+                f"the offline database. Check that descriptor fetch succeeded."
+            )
+
+        if not cols_to_keep:
+            # Absolute fallback — should never happen in normal use
+            logger.error("Zero mandated descriptors found. Falling back to first 2 numeric columns.")
+            cols_to_keep = X_new.select_dtypes(include=['number']).columns.tolist()[:2]
+
+        # Drop everything that is not in the mandated set
+        cols_to_drop = [c for c in X_new.columns if c not in cols_to_keep]
+        X_new.drop(columns=cols_to_drop, inplace=True)
+
+        found_str = ", ".join(cols_to_keep)
+        logger.info(
+            f"Feature selection complete. Using {len(cols_to_keep)} mandated "
+            f"biological descriptors: [{found_str}]"
+        )
+
         self.selected_features = X_new.columns.tolist()
         return X_new
 
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         if not self.selected_features:
-            raise ValueError("Selector has not been fitted yet.")
+            raise ValueError("Selector has not been fitted yet. Call fit_transform first.")
         
-        # Only keep selected features that are actually in X
+        # Only keep selected features that are actually present in X
         cols_to_keep = [col for col in self.selected_features if col in X.columns]
+        if not cols_to_keep:
+            raise ValueError(
+                f"None of the trained features {self.selected_features} are present "
+                f"in the prediction data. Ensure descriptor fetch completed successfully."
+            )
         return X[cols_to_keep].copy()

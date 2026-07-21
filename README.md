@@ -49,7 +49,7 @@ streamlit run app.py
 
 ### Application Workflow:
 1. **Phase 1: Data Initialization & Validation**: Upload your experimental CSV, attach metadata (Media, Temp, etc.), and use the interactive Data Editor to manually inject missing descriptors or fetch missing structural descriptors via PubChem.
-2. **Phase 2: Model Training & Evaluation**: The engine analyzes dataset shape, recommends models (defaulting to Gaussian Process for small datasets), and trains them across all targets concurrently.
+2. **Phase 2: Model Training & Evaluation**: The engine analyzes dataset shape, recommends models (defaulting to Gaussian Process for small datasets), and trains them across all targets concurrently. Training is restricted to the **4 researcher-mandated biological descriptors**: LogP, Dielectric Constant, Water Solubility, and Dynamic Viscosity — selected based on their established biological relevance to whole-cell microbial response and solvent toxicity mechanisms.
 3. **Phase 3: High-Throughput Screening**: Evaluates a library of 150+ untested chemicals. Automatically generates 2D structural graphs, PCA visualizations, and mathematically scaled Bar Charts with 95% Confidence Intervals pointing you toward optimal biocompatible chemicals.
 
 ## Data Structure
