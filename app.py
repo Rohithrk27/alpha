@@ -184,6 +184,13 @@ if 'exp_metadata' not in st.session_state: st.session_state.exp_metadata = {"med
 if 'prediction_df' not in st.session_state: st.session_state.prediction_df = None
 if 'pred_results' not in st.session_state: st.session_state.pred_results = None
 if 'X_scaled_novel' not in st.session_state: st.session_state.X_scaled_novel = None
+if 'smiles_map' not in st.session_state: st.session_state.smiles_map = {}
+
+# Lazily rebuild smiles_map from prediction_df if it got wiped by a refresh
+if not st.session_state.smiles_map and st.session_state.prediction_df is not None:
+    _pdf = st.session_state.prediction_df
+    if 'SMILES' in _pdf.columns:
+        st.session_state.smiles_map = dict(zip(_pdf['solvent_name'].str.strip().str.lower(), _pdf['SMILES']))
 st.sidebar.title("⚙️ Global Settings")
 st.sidebar.info("Welcome to the **Solvent Toxicity Prediction Framework**.\n\nNavigate through the tabs in the main window to construct and deploy your machine learning models.")
 
@@ -608,8 +615,20 @@ if st.session_state.current_tab == "Phase 3":
                     
                     # Rebuild SMILES from saved map (survives data editor edits)
                     smiles_map = st.session_state.get("smiles_map", {})
-                    if smiles_map:
-                        smiles_list = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
+                    
+                    # If map is still empty, load directly from offline DB as ultimate fallback
+                    if not smiles_map:
+                        try:
+                            _db_path = os.path.join(os.path.dirname(__file__), "data", "universal_solvent_database.csv")
+                            if os.path.exists(_db_path):
+                                _db = pd.read_csv(_db_path)
+                                if "Solvent_Name" in _db.columns and "SMILES" in _db.columns:
+                                    smiles_map = dict(zip(_db["Solvent_Name"].str.strip().str.lower(), _db["SMILES"]))
+                                    st.session_state.smiles_map = smiles_map
+                        except Exception:
+                            pass
+                    
+                    smiles_list = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
                     
                     if not results_df.empty:                        # Insert chemical structure images if available
                         idx_insert = 1
