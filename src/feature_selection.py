@@ -25,10 +25,28 @@ class FeatureSelector:
         dynamic_threshold = self.correlation_threshold
         if n_samples < 20:
             logger.info(f"Small dataset ({n_samples} rows) detected. Aggressively selecting only essential descriptors.")
-            # Explicitly lock onto the most essential descriptors for small datasets
-            essential_candidates = ['LogP', 'XLogP', 'Molecular_Weight', 'Topological_Polar_Surface_Area', 'logp', 'xlogp', 'molecular_weight', 'tpsa', 'Density']
-            # Keep only essential candidates that exist in X_new
-            cols_to_keep = [c for c in X_new.columns if c in essential_candidates or c.lower() in essential_candidates]
+            # Explicitly lock onto the top ranked biological descriptors for small datasets to prevent overfitting
+            # Ranked strictly by biological importance (LogP > Polarity > Solubility > Viscosity > HSP > Surface Tension > MW)
+            ranked_essentials = [
+                'xlogp', 'logp',                            # Rank 1: Membrane partitioning
+                'dielectric_constant',                      # Rank 2: Polarity
+                'water_solubility',                         # Rank 3: Aqueous partitioning
+                'dynamic_viscosity', 'viscosity',           # Rank 4: Mass transfer
+                'hansen_dispersion', 'hansen_polar', 'hansen_hydrogen', 'hildebrand_parameter', # Rank 5: HSP
+                'surface_tension',                          # Rank 6: Wetting
+                'molecular_weight'                          # Rank 7: Size
+            ]
+            
+            cols_to_keep = []
+            for candidate in ranked_essentials:
+                # Find matching columns in X_new (case insensitive)
+                matches = [c for c in X_new.columns if c.lower() == candidate and c not in cols_to_keep]
+                cols_to_keep.extend(matches)
+                if len(cols_to_keep) >= 4:
+                    break
+            
+            # Strictly cap at 4 features to prevent Curse of Dimensionality on small datasets
+            cols_to_keep = cols_to_keep[:4]
             
             # If we somehow found zero essentials, fallback to the first 2 numeric columns
             if not cols_to_keep:
