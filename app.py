@@ -187,6 +187,23 @@ if 'X_scaled_novel' not in st.session_state: st.session_state.X_scaled_novel = N
 st.sidebar.title("⚙️ Global Settings")
 st.sidebar.info("Welcome to the **Solvent Toxicity Prediction Framework**.\n\nNavigate through the tabs in the main window to construct and deploy your machine learning models.")
 
+import streamlit.components.v1 as components
+def switch_tab(tab_name):
+    components.html(
+        f"""
+        <script>
+        var tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+        for (var i = 0; i < tabs.length; i++) {{
+            if (tabs[i].innerText.includes('{tab_name}')) {{
+                tabs[i].click();
+                break;
+            }}
+        }}
+        </script>
+        """,
+        height=0
+    )
+
 tab1, tab2, tab3 = st.tabs(["📊 Phase 1: Data Initialization", "🧠 Phase 2: Model Training", "🔮 Phase 3: High-Throughput Screening"])
 
 # --- PAGE 1: Data Upload & EDA ---
@@ -419,7 +436,8 @@ with tab1:
                         # Recommendation Engine
                         st.session_state.recommendation = st.session_state.recommendation_engine.analyze_dataset(X_selected, y)
                         st.success("Data processed and ready for modeling!")
-                        st.info("👉 **Proceed to Phase 2 (Tab 2) at the top of the screen.**")
+                        if st.button("Proceed to Phase 2 ➔", type="primary"):
+                            switch_tab("Phase 2")
 
 # --- PAGE 2: Model Training & Eval ---
 with tab2:
@@ -488,6 +506,10 @@ with tab2:
                         st.pyplot(fig_shap)
                     else:
                         st.warning("SHAP explanation not available for this model type or SHAP is not installed.")
+            
+            st.divider()
+            if st.button("Proceed to Phase 3: High-Throughput Screening ➔", type="primary"):
+                switch_tab("Phase 3")
 
 # --- PAGE 3: Prediction & Inference ---
 with tab3:
