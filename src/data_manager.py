@@ -38,6 +38,22 @@ class DataManager:
                             if hasattr(file_or_df, "seek"):
                                 file_or_df.seek(0)
                             self.raw_data = pd.read_csv(file_or_df, encoding='utf-16')
+            
+            # Normalize column names to prevent KeyErrors throughout the app
+            renamed = False
+            for col in self.raw_data.columns:
+                col_lower = str(col).lower().strip().replace("_", " ")
+                if col_lower in ['solvent', 'solvent name', 'compound', 'chemical', 'molecule']:
+                    self.raw_data.rename(columns={col: 'solvent_name'}, inplace=True)
+                    renamed = True
+                    break
+                    
+            if not renamed and 'solvent_name' not in self.raw_data.columns:
+                # Fallback: forcefully rename the first string column, or first column overall
+                str_cols = self.raw_data.select_dtypes(include=['object', 'string']).columns
+                fallback_col = str_cols[0] if len(str_cols) > 0 else self.raw_data.columns[0]
+                self.raw_data.rename(columns={fallback_col: 'solvent_name'}, inplace=True)
+
             logger.info(f"Successfully loaded data with {len(self.raw_data)} rows.")
             self.processed_data = self.raw_data.copy()
             return self.raw_data
