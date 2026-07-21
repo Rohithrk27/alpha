@@ -430,10 +430,13 @@ if st.session_state.current_tab == "Phase 1":
                         
                         # Recommendation Engine
                         st.session_state.recommendation = st.session_state.recommendation_engine.analyze_dataset(X_selected, y)
-                        st.success("Data processed and ready for modeling!")
-                        if st.button("Proceed to Phase 2 ➔", type="primary"):
-                            st.session_state.current_tab = "Phase 2"
-                            st.rerun()
+                        
+            if st.session_state.get("recommendation") is not None:
+                st.markdown("<br>", unsafe_allow_html=True)
+                st.success("✅ Data is processed and ready for modeling!")
+                if st.button("Proceed to Phase 2 ➔", type="primary"):
+                    st.session_state.current_tab = "Phase 2"
+                    st.rerun()
 
 # --- PAGE 2: Model Training & Eval ---
 if st.session_state.current_tab == "Phase 2":
