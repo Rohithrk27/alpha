@@ -230,6 +230,7 @@ if 'prediction_df' not in st.session_state: st.session_state.prediction_df = Non
 if 'pred_results' not in st.session_state: st.session_state.pred_results = None
 if 'X_scaled_novel' not in st.session_state: st.session_state.X_scaled_novel = None
 if 'smiles_map' not in st.session_state: st.session_state.smiles_map = {}
+if 'training_lookup' not in st.session_state: st.session_state.training_lookup = {}
 
 # Lazily rebuild smiles_map from prediction_df if it got wiped by a refresh
 if not st.session_state.smiles_map and st.session_state.prediction_df is not None:
@@ -539,6 +540,19 @@ if st.session_state.current_tab == "Phase 2":
                 best_models = st.session_state.model_validator.select_best_models(eval_results)
                 st.session_state.best_models = best_models
                 
+                # Build exact lookup table for training solvents → guarantees exact match in predictions
+                training_lookup = {}
+                proc_data = st.session_state.data_manager.processed_data
+                y_data = st.session_state.y_processed
+                if "solvent_name" in proc_data.columns:
+                    for i, row in proc_data.iterrows():
+                        name_key = str(row["solvent_name"]).strip().lower()
+                        training_lookup[name_key] = {}
+                        for target_col in y_data.columns:
+                            if i in y_data.index and target_col in y_data.columns:
+                                training_lookup[name_key][target_col] = y_data.at[i, target_col]
+                st.session_state.training_lookup = training_lookup
+                
         if st.session_state.evaluation_results is not None:
             st.divider()
             st.markdown("### Step 3: Performance Analysis")
@@ -687,6 +701,23 @@ if st.session_state.current_tab == "Phase 3":
                             # Also save SMILES for PDF report generation
                             results_df["_SMILES"] = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
                             idx_insert = 2
+                        
+                        # ── EXACT MATCH OVERRIDE FOR TRAINING SOLVENTS ──────────────
+                        # If a solvent was in the training set, use its exact experimental
+                        # value instead of the model's approximation.
+                        training_lookup = st.session_state.get("training_lookup", {})
+                        if training_lookup:
+                            targets = list(st.session_state.best_models.keys())
+                            for i, row in results_df.iterrows():
+                                name_key = str(row["solvent_name"]).strip().lower()
+                                if name_key in training_lookup:
+                                    for target in targets:
+                                        pred_col = f"{target}_Prediction"
+                                        unc_col = f"{target}_Uncertainty"
+                                        if pred_col in results_df.columns and target in training_lookup[name_key]:
+                                            results_df.at[i, pred_col] = round(training_lookup[name_key][target], 1)
+                                        if unc_col in results_df.columns:
+                                            results_df.at[i, unc_col] = 0.0
                         
                         # Calculate Overall Compatibility Score using Min-Max Normalization
                         target_preds = [f"{t}_Prediction" for t in st.session_state.best_models.keys() if f"{t}_Prediction" in results_df.columns]
