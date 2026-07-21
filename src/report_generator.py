@@ -1,7 +1,7 @@
 import os
 from fpdf import FPDF
 import pandas as pd
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 class ReportGenerator:
     """Generates PDF lab reports from models and predictions."""
@@ -24,7 +24,8 @@ class ReportGenerator:
         pdf.set_font("Arial", 'B', 24)
         pdf.cell(0, 15, "Solvent Predictor Lab Report", ln=True, align="C")
         pdf.set_font("Arial", 'I', 10)
-        pdf.cell(0, 10, f"Generated on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')} UTC", ln=True, align="C")
+        ist_tz = timezone(timedelta(hours=5, minutes=30))
+        pdf.cell(0, 10, f"Generated on {datetime.now(ist_tz).strftime('%Y-%m-%d %H:%M')} IST", ln=True, align="C")
         pdf.ln(10)
         
         # Section 1: Top Predictions
