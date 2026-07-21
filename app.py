@@ -62,6 +62,17 @@ st.markdown("""
     
     /* Tooltips / Info blocks */
     .stAlert { border-radius: 8px; border: none; }
+    
+    /* Responsive Design for Mobile/Tablet */
+    @media (max-width: 768px) {
+        .block-container { padding: 1rem !important; max-width: 100% !important; }
+        .main { padding: 1.5rem; margin-top: 0.5rem; }
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.5rem; }
+        h3 { font-size: 1.2rem; }
+        .stButton>button { width: 100%; margin-bottom: 0.5rem; }
+        .stTabs [data-baseweb="tab-list"] { flex-wrap: wrap; }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -173,17 +184,13 @@ if 'exp_metadata' not in st.session_state: st.session_state.exp_metadata = {"med
 if 'prediction_df' not in st.session_state: st.session_state.prediction_df = None
 if 'pred_results' not in st.session_state: st.session_state.pred_results = None
 if 'X_scaled_novel' not in st.session_state: st.session_state.X_scaled_novel = None
-st.sidebar.title("Navigation")
-def set_page(page_name): st.session_state.page = page_name
+st.sidebar.title("⚙️ Global Settings")
+st.sidebar.info("Welcome to the **Solvent Toxicity Prediction Framework**.\n\nNavigate through the tabs in the main window to construct and deploy your machine learning models.")
 
-page = st.sidebar.radio(
-    "Go to", 
-    ["Data Upload & EDA", "Model Recommendation & Training", "Prediction & Inference"],
-    key="page"
-)
+tab1, tab2, tab3 = st.tabs(["📊 Phase 1: Data Initialization", "🧠 Phase 2: Model Training", "🔮 Phase 3: High-Throughput Screening"])
 
 # --- PAGE 1: Data Upload & EDA ---
-if page == "Data Upload & EDA":
+with tab1:
     st.header("Phase 1: Data Initialization & Validation")
     st.markdown("Before building toxicity models, we need a clean, structured dataset. Follow the steps below to initialize your solvent data, attach experimental conditions, and fetch molecular descriptors.")
     st.divider()
@@ -420,12 +427,11 @@ if page == "Data Upload & EDA":
                         # Recommendation Engine
                         st.session_state.recommendation = st.session_state.recommendation_engine.analyze_dataset(X_selected, y)
                         st.success("Data processed and ready for modeling!")
-                        st.button("Next: Model Recommendation & Training ➔", on_click=set_page, args=("Model Recommendation & Training",))
+                        st.info("👉 **Proceed to Phase 2 (Tab 2) at the top of the screen.**")
 
 # --- PAGE 2: Model Training & Eval ---
-elif page == "Model Recommendation & Training":
+with tab2:
     st.header("Phase 2: Model Training & Evaluation")
-    st.button("⬅️ Back to Data Upload (Phase 1)", on_click=set_page, args=("Data Upload & Cleaning",))
     
     if st.session_state.recommendation is None:
         st.warning("Please upload and process your dataset in Phase 1 first.")
@@ -493,14 +499,10 @@ elif page == "Model Recommendation & Training":
                         st.pyplot(fig_shap)
                     else:
                         st.warning("SHAP explanation not available for this model type or SHAP is not installed.")
-            
-            st.markdown("<hr>", unsafe_allow_html=True)
-            st.button("Next: Prediction & Inference ➔", on_click=set_page, args=("Prediction & Inference",), type="primary")
 
-# --- PAGE 3: Prediction ---
-elif page == "Prediction & Inference":
-    st.header("Phase 3: High-Throughput Screening & Inference")
-    st.button("⬅️ Back to Model Training (Phase 2)", on_click=set_page, args=("Model Recommendation & Training",))
+# --- PAGE 3: Prediction & Inference ---
+with tab3:
+    st.header("Phase 3: High-Throughput Screening")
     
     if st.session_state.best_models is None:
         st.warning("Please train and select your models in Phase 2 before attempting predictions.")
