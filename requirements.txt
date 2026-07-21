@@ -12,7 +12,6 @@ ipykernel
 openpyxl
 requests
 streamlit
-
-# Note: xgboost and shap are NOT included by default.
-# They are installed conditionally by the pipeline ONLY if n > 30 (Tier C).
-# See src/data_size_gate.py for details.
+shap
+rdkit
+fpdf
