@@ -192,13 +192,15 @@ def switch_tab(tab_name):
     components.html(
         f"""
         <script>
-        var tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
-        for (var i = 0; i < tabs.length; i++) {{
-            if (tabs[i].innerText.includes('{tab_name}')) {{
-                tabs[i].click();
-                break;
+        setTimeout(function() {{
+            var tabs = window.parent.document.querySelectorAll('button[data-testid="stTab"]');
+            for (var i = 0; i < tabs.length; i++) {{
+                if (tabs[i].innerText.includes('{tab_name}')) {{
+                    tabs[i].click();
+                    break;
+                }}
             }}
-        }}
+        }}, 50);
         </script>
         """,
         height=0
