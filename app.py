@@ -89,6 +89,51 @@ from src.model_interpretation import ModelInterpreter
 from src.prediction_engine import PredictionEngine
 from src.visualization import VisualizationEngine
 
+def _get_smiles_for_names(solvent_names: list) -> dict:
+    """Loads SMILES from offline DB for a list of solvent names. Returns {name_lower: smiles}."""
+    try:
+        _db_path = os.path.join(os.path.dirname(__file__), "data", "universal_solvent_database.csv")
+        if os.path.exists(_db_path):
+            _db = pd.read_csv(_db_path, usecols=["Solvent_Name", "SMILES"])
+            return dict(zip(_db["Solvent_Name"].str.strip().str.lower(), _db["SMILES"]))
+    except Exception:
+        pass
+    return {}
+
+def _add_structure_col(df: pd.DataFrame, smiles_map: dict) -> pd.DataFrame:
+    """Adds a 'Structure' ImageColumn (base64 PNG data URI) to a dataframe."""
+    try:
+        from rdkit import Chem
+        from rdkit.Chem import Draw
+        import base64
+        from io import BytesIO
+
+        img_tags = []
+        any_valid = False
+        for name in df["solvent_name"]:
+            smiles = smiles_map.get(str(name).strip().lower(), "")
+            img_data = None
+            if smiles and str(smiles).strip() not in ["", "nan", "Unknown"]:
+                try:
+                    mol = Chem.MolFromSmiles(str(smiles).strip())
+                    if mol:
+                        img = Draw.MolToImage(mol, size=(150, 150))
+                        buf = BytesIO()
+                        img.save(buf, format="PNG")
+                        img_data = f'data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}'
+                        any_valid = True
+                except Exception:
+                    pass
+            img_tags.append(img_data)
+
+        if any_valid:
+            out = df.copy()
+            out.insert(1, "Structure", img_tags)
+            return out
+    except ImportError:
+        pass
+    return df
+
 def get_column_config(df_columns):
     configs = {}
     for col in df_columns:
@@ -276,8 +321,15 @@ if st.session_state.current_tab == "Phase 1":
             st.session_state.data_manager.raw_data = df_to_clean
                 
             col_config = get_column_config(st.session_state.data_manager.raw_data.columns)
+            
+            # Add 2D structures to Phase 1 experimental table
+            _p1_smiles_map = _get_smiles_for_names(st.session_state.data_manager.raw_data["solvent_name"].tolist())
+            _p1_display_df = _add_structure_col(st.session_state.data_manager.raw_data, _p1_smiles_map)
+            if "Structure" in _p1_display_df.columns:
+                col_config["Structure"] = st.column_config.ImageColumn("Structure", width="small")
+            
             st.session_state.data_manager.processed_data = st.data_editor(
-                st.session_state.data_manager.raw_data, 
+                _p1_display_df,
                 use_container_width=True, 
                 num_rows="dynamic",
                 column_config=col_config
@@ -592,9 +644,15 @@ if st.session_state.current_tab == "Phase 3":
             
             pred_col_config = get_column_config(st.session_state.prediction_df.columns)
             
+            # Add 2D structures to Phase 3 descriptor review table
+            _p3_smiles_map = st.session_state.get("smiles_map", {}) or _get_smiles_for_names(st.session_state.prediction_df["solvent_name"].tolist())
+            _p3_display_df = _add_structure_col(st.session_state.prediction_df, _p3_smiles_map)
+            if "Structure" in _p3_display_df.columns:
+                pred_col_config["Structure"] = st.column_config.ImageColumn("Structure", width="small")
+            
             # Show interactive table for editing
             edited_pred_df = st.data_editor(
-                st.session_state.prediction_df,
+                _p3_display_df,
                 use_container_width=True,
                 num_rows="dynamic",
                 column_config=pred_col_config,
@@ -614,56 +672,17 @@ if st.session_state.current_tab == "Phase 3":
                     results_df, X_scaled_novel, smiles_list = pred_engine.predict_df(edited_pred_df)
                     
                     # Rebuild SMILES from saved map (survives data editor edits)
-                    smiles_map = st.session_state.get("smiles_map", {})
+                    smiles_map = st.session_state.get("smiles_map", {}) or _get_smiles_for_names(results_df["solvent_name"].tolist())
+                    st.session_state.smiles_map = smiles_map  # ensure it's cached
                     
-                    # If map is still empty, load directly from offline DB as ultimate fallback
-                    if not smiles_map:
-                        try:
-                            _db_path = os.path.join(os.path.dirname(__file__), "data", "universal_solvent_database.csv")
-                            if os.path.exists(_db_path):
-                                _db = pd.read_csv(_db_path)
-                                if "Solvent_Name" in _db.columns and "SMILES" in _db.columns:
-                                    smiles_map = dict(zip(_db["Solvent_Name"].str.strip().str.lower(), _db["SMILES"]))
-                                    st.session_state.smiles_map = smiles_map
-                        except Exception:
-                            pass
-                    
-                    smiles_list = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
-                    
-                    if not results_df.empty:                        # Insert chemical structure images if available
+                    if not results_df.empty:
+                        # Insert 2D structure images via the shared helper
                         idx_insert = 1
-                        if any(s for s in smiles_list if s and str(s).strip() not in ["", "nan"]):
-                            try:
-                                from rdkit import Chem
-                                from rdkit.Chem import Draw
-                                from PIL import Image
-                                import base64
-                                from io import BytesIO
-                                
-                                img_tags = []
-                                any_valid = False
-                                for s in smiles_list:
-                                    img_data = None  # None renders as blank in Streamlit ImageColumn
-                                    if pd.notna(s) and str(s).strip() not in ["Unknown", "nan", ""]:
-                                        try:
-                                            mol = Chem.MolFromSmiles(str(s).strip())
-                                            if mol:
-                                                img = Draw.MolToImage(mol, size=(150, 150))
-                                                buffered = BytesIO()
-                                                img.save(buffered, format="PNG")
-                                                img_str = base64.b64encode(buffered.getvalue()).decode()
-                                                img_data = f'data:image/png;base64,{img_str}'
-                                                any_valid = True
-                                        except Exception:
-                                            img_data = None
-                                    img_tags.append(img_data)
-                                
-                                if any_valid:
-                                    results_df.insert(1, "Structure", img_tags)
-                                    results_df["_SMILES"] = smiles_list
-                                    idx_insert = 2
-                            except ImportError:
-                                pass
+                        results_df = _add_structure_col(results_df, smiles_map)
+                        if "Structure" in results_df.columns:
+                            # Also save SMILES for PDF report generation
+                            results_df["_SMILES"] = [smiles_map.get(str(n).strip().lower(), "") for n in results_df["solvent_name"]]
+                            idx_insert = 2
                         
                         # Calculate Overall Compatibility Score using Min-Max Normalization
                         target_preds = [f"{t}_Prediction" for t in st.session_state.best_models.keys() if f"{t}_Prediction" in results_df.columns]
@@ -725,11 +744,12 @@ if st.session_state.current_tab == "Phase 3":
             st.success(f"🏆 **Top Recommended Solvent:** {best_solvent} (Compatibility: {best_score})")
 
             # Make UI readable by replacing underscores and registering ImageColumn
-            col_config_results = {col: st.column_config.Column(label=col.replace("_", " ")) for col in results_df.columns}
-            if "Structure" in results_df.columns:
-                col_config_results["Structure"] = st.column_config.ImageColumn("Structure")
+            display_results_df = results_df.drop(columns=["_SMILES"], errors="ignore")
+            col_config_results = {col: st.column_config.Column(label=col.replace("_", " ")) for col in display_results_df.columns}
+            if "Structure" in display_results_df.columns:
+                col_config_results["Structure"] = st.column_config.ImageColumn("Structure", width="small")
                 
-            st.dataframe(results_df, use_container_width=True, column_config=col_config_results)
+            st.dataframe(display_results_df, use_container_width=True, column_config=col_config_results)
             
             # Generate PCA plot
             st.divider()
