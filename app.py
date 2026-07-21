@@ -148,7 +148,7 @@ def _add_structure_col(df: pd.DataFrame, smiles_map: dict) -> pd.DataFrame:
         url = None
         if smiles and str(smiles).strip() not in ["", "nan", "Unknown"]:
             encoded_smiles = urllib.parse.quote(str(smiles).strip())
-            url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{encoded_smiles}/PNG"
+            url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{encoded_smiles}/PNG?record_type=3d&image_size=large"
             any_valid = True
         img_urls.append(url)
         
