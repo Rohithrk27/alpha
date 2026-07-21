@@ -596,9 +596,10 @@ elif page == "Prediction & Inference":
                                             buffered = BytesIO()
                                             img.save(buffered, format="PNG")
                                             img_str = base64.b64encode(buffered.getvalue()).decode()
-                                            img_tags.append(f'<img src="data:image/png;base64,{img_str}" width="100">')
+                                            # Streamlit ImageColumn expects the raw Data URI, not an HTML tag
+                                            img_tags.append(f'data:image/png;base64,{img_str}')
                                         else:
-                                            img_tags.append("Invalid")
+                                            img_tags.append("https://dummyimage.com/150x150/ffffff/ff0000.png&text=Invalid")
                                 results_df.insert(1, "Structure", img_tags)
                                 idx_insert = 2
                             except ImportError:
