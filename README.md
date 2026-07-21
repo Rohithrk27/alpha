@@ -5,13 +5,16 @@ A hybrid experimental–machine learning framework capable of predicting the tox
 
 The software is intentionally designed to scale from small proof-of-concept datasets to large experimental and literature-derived datasets without requiring structural modifications, using a dynamic **Model Recommendation Engine**.
 
-## Architecture (Version 2.2)
-The system has transitioned to a highly modular architecture located in `src/`:
-- **`data_manager.py`**: Experimental dataset loading and metadata tracking.
+For a conceptual, non-technical breakdown of how this AI framework works and why it is highly relevant to modern biotechnology and wet-lab research, please read the [Biotech Explanation Document](explanation.md).
+
+## Architecture (Version 3.0)
+The system operates on a highly modular architecture located in `src/`:
+- **`data_manager.py`**: Experimental dataset loading, handling dynamically scaling numbers of biological targets.
 - **`descriptor_engine.py`**: Automated molecular property fetching via PubChem and RDKit.
-- **`recommendation_engine.py`**: Dynamically recommends ML models and Cross-Validation strategies based on dataset characteristics (samples, features, missing data, outliers).
-- **`model_training.py` & `model_validation.py`**: Concurrent multi-target regression.
-- **`prediction_engine.py`**: Dual-target prediction inference for untested solvents with 95% Confidence Intervals. Safe fallback handling is implemented for cases when SMILES data is fetched dynamically.
+- **`recommendation_engine.py`**: Dynamically recommends ML models (e.g., heavily prioritizing Gaussian Process regressors for tiny biological lab datasets).
+- **`model_training.py` & `model_validation.py`**: Concurrent multi-target regression scaling to an unlimited amount of input columns.
+- **`prediction_engine.py`**: Multi-target prediction inference for 150+ novel solvents with calculated 95% Confidence Intervals.
+- **`visualization.py`**: Generates publication-ready chemical space PCA plots, Min-Max normalized Overall Compatibility scores, dynamic Bar Charts with error bars, and 2D RDKit structural renderings.
 - **`model_interpretation.py`**: Explainable AI via SHAP summaries.
 
 ## Setup
@@ -22,7 +25,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-*(Note: Install `xgboost`, `catboost`, `lightgbm`, and `shap` if you wish to utilize the advanced models and Explainable AI features recommended for larger datasets.)*
+*(Note: Install `xgboost`, `catboost`, `lightgbm`, and `shap` if you wish to utilize the advanced models and Explainable AI features recommended for larger datasets. Ensure `rdkit` is installed to view 2D molecular structure drawings.)*
 
 ## Universal Solvent Database
 The framework includes a script to build a comprehensive offline descriptor database for ~150 common industrial and laboratory organic solvents. This helps avoid hitting API rate limits during massive continuous predictions.
@@ -47,14 +50,14 @@ streamlit run app.py
 
 ### Application Workflow:
 1. **Phase 1: Data Initialization & Validation**: Upload your experimental CSV, attach metadata (Media, Temp, etc.), and use the interactive Data Editor to manually inject missing descriptors or fetch missing structural descriptors via PubChem.
-2. **Phase 2: Model Training & Evaluation**: The engine analyzes dataset shape, recommends models, and trains them. Review the actual vs. predicted plots and interpret the model using SHAP summaries.
-3. **Phase 3: High-Throughput Screening**: Enter novel solvent names to predict toxicity and download the batch predictions as a CSV report.
+2. **Phase 2: Model Training & Evaluation**: The engine analyzes dataset shape, recommends models (defaulting to Gaussian Process for small datasets), and trains them across all targets concurrently.
+3. **Phase 3: High-Throughput Screening**: Evaluates a library of 150+ untested chemicals. Automatically generates 2D structural graphs, PCA visualizations, and mathematically scaled Bar Charts with 95% Confidence Intervals pointing you toward optimal biocompatible chemicals.
 
 ## Data Structure
-Your experimental data can be provided via a CSV file, or typed and edited manually row-by-row within the application interface. It must contain one row per solvent.
+Your experimental data can be provided via a CSV file, or typed and edited manually row-by-row within the application interface. The software dynamically handles any number of target columns you provide.
 Example:
-| solvent_name | glucose_uptake | substrate_conversion |
-|--------------|----------------|----------------------|
-| Ethanol      | 78             | 71                   |
-| Acetone      | 60             | 55                   |
-| Toluene      | 18             | 12                   |
+| solvent_name | glucose_uptake | substrate_conversion | cfu/ml | any_other_target |
+|--------------|----------------|----------------------|--------|------------------|
+| Ethanol      | 78             | 71                   | 500000 | ...              |
+| Acetone      | 60             | 55                   | 10000  | ...              |
+| Toluene      | 18             | 12                   | 0      | ...              |
