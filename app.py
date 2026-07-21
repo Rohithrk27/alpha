@@ -221,15 +221,7 @@ with tab1:
             st.session_state.uploaded_name = "manual_entry"
             st.rerun()
 
-    st.markdown("### Step 2: Global Experiment Conditions")
-    st.write("Record the constant conditions under which all these solvents were tested. This metadata will be attached to your final model report.")
-    colA, colB = st.columns(2)
-    with colA:
-        st.session_state.exp_metadata["media"] = st.text_input("Media Composition", st.session_state.exp_metadata["media"], placeholder="e.g. YPD, Minimal Media")
-        st.session_state.exp_metadata["temp"] = st.text_input("Temperature", st.session_state.exp_metadata["temp"], placeholder="e.g. 30°C")
-    with colB:
-        st.session_state.exp_metadata["shaking"] = st.text_input("Agitation / Shaking", st.session_state.exp_metadata["shaking"], placeholder="e.g. 200 RPM")
-        st.session_state.exp_metadata["notes"] = st.text_input("Other Notes (Growth Phase, etc.)", st.session_state.exp_metadata["notes"], placeholder="e.g. Exponential phase cells")
+
 
     if uploaded_file is not None:
         if st.session_state.data_manager.raw_data.empty or str(getattr(uploaded_file, 'name', '')) not in str(st.session_state.get('uploaded_name', '')):
@@ -237,7 +229,7 @@ with tab1:
             st.session_state.uploaded_name = uploaded_file.name
 
     if not st.session_state.data_manager.raw_data.empty:
-        st.markdown("### Step 3: Data Editor & Descriptor Enrichment")
+        st.markdown("### Step 2: Data Editor & Descriptor Enrichment")
         st.write("Review your data below. You can automatically fetch structural molecular descriptors (like MW, LogP, TPSA) from our offline database or PubChem API by clicking the blue button.")
         
         with st.expander("🛠️ Interactive Data Editor (Manual Entry & Review)", expanded=True):
@@ -438,10 +430,7 @@ with tab2:
     else:
         rec = st.session_state.recommendation
         
-        if any(st.session_state.exp_metadata.values()):
-            md = st.session_state.exp_metadata
-            st.info(f"**🧪 Attached Context:** Media: `{md['media']}` | Temp: `{md['temp']}` | Agitation: `{md['shaking']}` | Notes: `{md['notes']}`")
-            
+
         st.markdown("### Step 1: Dataset Profile & AI Recommendations")
         st.markdown("Based on the shape and quality of your processed data, the Recommendation Engine suggests the following strategy:")
         
