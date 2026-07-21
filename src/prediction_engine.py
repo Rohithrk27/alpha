@@ -31,8 +31,20 @@ class PredictionEngine:
             if "Solvent_Name" in db_df.columns:
                 db_df.rename(columns={"Solvent_Name": "solvent_name"}, inplace=True)
             if "solvent_name" in db_df.columns:
+                aliases = {
+                    "dmso": "dimethyl sulfoxide",
+                    "butanol": "1-butanol",
+                    "n-butanol": "1-butanol",
+                    "thf": "tetrahydrofuran",
+                    "dmf": "n,n-dimethylformamide",
+                    "dcm": "dichloromethane",
+                    "ipa": "2-propanol",
+                    "isopropanol": "2-propanol",
+                    "nmp": "n-methyl-2-pyrrolidone"
+                }
                 for idx, row in df_new.iterrows():
-                    search_val = str(row["solvent_name"]).lower()
+                    search_val = str(row["solvent_name"]).lower().strip()
+                    search_val = aliases.get(search_val, search_val)
                     match = db_df[
                         (db_df["solvent_name"].str.lower() == search_val) |
                         (db_df.get("IUPACName", pd.Series(dtype=str)).str.lower() == search_val) |

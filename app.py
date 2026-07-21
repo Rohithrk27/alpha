@@ -90,12 +90,38 @@ from src.prediction_engine import PredictionEngine
 from src.visualization import VisualizationEngine
 
 def _get_smiles_for_names(solvent_names: list) -> dict:
-    """Loads SMILES from offline DB for a list of solvent names. Returns {name_lower: smiles}."""
     try:
         _db_path = os.path.join(os.path.dirname(__file__), "data", "universal_solvent_database.csv")
         if os.path.exists(_db_path):
-            _db = pd.read_csv(_db_path, usecols=["Solvent_Name", "SMILES"])
-            return dict(zip(_db["Solvent_Name"].str.strip().str.lower(), _db["SMILES"]))
+            _db = pd.read_csv(_db_path)
+            
+            aliases = {
+                "dmso": "dimethyl sulfoxide",
+                "butanol": "1-butanol",
+                "n-butanol": "1-butanol",
+                "thf": "tetrahydrofuran",
+                "dmf": "n,n-dimethylformamide",
+                "dcm": "dichloromethane",
+                "ipa": "2-propanol",
+                "isopropanol": "2-propanol",
+                "nmp": "n-methyl-2-pyrrolidone"
+            }
+            
+            result = {}
+            for name in solvent_names:
+                search_val = str(name).strip().lower()
+                search_val = aliases.get(search_val, search_val)
+                
+                match = _db[
+                    (_db.get("Solvent_Name", pd.Series(dtype=str)).str.lower() == search_val) |
+                    (_db.get("IUPACName", pd.Series(dtype=str)).str.lower() == search_val) |
+                    (_db.get("PubChem_CommonName", pd.Series(dtype=str)).str.lower() == search_val)
+                ]
+                if not match.empty and "SMILES" in match.columns:
+                    smiles_val = match.iloc[0]["SMILES"]
+                    if not pd.isna(smiles_val):
+                        result[str(name).strip().lower()] = smiles_val
+            return result
     except Exception:
         pass
     return {}
@@ -107,8 +133,18 @@ def _add_structure_col(df: pd.DataFrame, smiles_map: dict) -> pd.DataFrame:
     img_urls = []
     any_valid = False
     
-    for name in df["solvent_name"]:
-        smiles = smiles_map.get(str(name).strip().lower(), "")
+    for idx, row in df.iterrows():
+        name = str(row.get("solvent_name", "")).strip().lower()
+        smiles = ""
+        
+        # 1. Prefer SMILES directly from the dataframe if it exists
+        if "SMILES" in df.columns and not pd.isna(row["SMILES"]):
+            smiles = str(row["SMILES"]).strip()
+            
+        # 2. Fallback to the provided map
+        if not smiles or smiles in ["nan", "Unknown"]:
+            smiles = smiles_map.get(name, "")
+            
         url = None
         if smiles and str(smiles).strip() not in ["", "nan", "Unknown"]:
             encoded_smiles = urllib.parse.quote(str(smiles).strip())
