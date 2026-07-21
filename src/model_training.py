@@ -35,8 +35,8 @@ class ModelTrainer:
         elif model_name == "SVR":
             return SVR(kernel='rbf', C=1.0)
         elif model_name == "Gaussian Process":
-            # Fixed kernel: no optimizer restarts, fixed length scale and noise → fully deterministic
-            kernel = 1.0 * RBF(length_scale=1.0, length_scale_bounds="fixed") + WhiteKernel(noise_level=0.1, noise_level_bounds="fixed")
+            # Low noise → GP interpolates tightly through training points
+            kernel = 1.0 * RBF(length_scale=1.0, length_scale_bounds="fixed") + WhiteKernel(noise_level=0.01, noise_level_bounds="fixed")
             return GaussianProcessRegressor(kernel=kernel, random_state=42, n_restarts_optimizer=0, alpha=1e-6, normalize_y=True)
         elif model_name == "XGBoost":
             try:

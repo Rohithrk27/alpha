@@ -328,12 +328,14 @@ if st.session_state.current_tab == "Phase 1":
             if "Structure" in _p1_display_df.columns:
                 col_config["Structure"] = st.column_config.ImageColumn("Structure", width="small")
             
-            st.session_state.data_manager.processed_data = st.data_editor(
+            _edited_p1 = st.data_editor(
                 _p1_display_df,
                 use_container_width=True, 
                 num_rows="dynamic",
                 column_config=col_config
             )
+            # Store clean data (without display-only Structure column) for training
+            st.session_state.data_manager.processed_data = _edited_p1.drop(columns=["Structure"], errors="ignore")
             
             st.markdown("##### Quick Add Column")
             ccol1, ccol2 = st.columns([3, 1])
@@ -669,7 +671,9 @@ if st.session_state.current_tab == "Phase 3":
                         st.session_state.feature_selector
                     )
                     
-                    results_df, X_scaled_novel, smiles_list = pred_engine.predict_df(edited_pred_df)
+                    # Strip any display-only columns that were injected for the table view
+                    clean_pred_df = edited_pred_df.drop(columns=["Structure", "_SMILES"], errors="ignore")
+                    results_df, X_scaled_novel, smiles_list = pred_engine.predict_df(clean_pred_df)
                     
                     # Rebuild SMILES from saved map (survives data editor edits)
                     smiles_map = st.session_state.get("smiles_map", {}) or _get_smiles_for_names(results_df["solvent_name"].tolist())
