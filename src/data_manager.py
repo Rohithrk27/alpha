@@ -18,7 +18,16 @@ class DataManager:
             if isinstance(file_or_df, pd.DataFrame):
                 self.raw_data = file_or_df.copy()
             else:
-                self.raw_data = pd.read_csv(file_or_df)
+                is_excel = False
+                if hasattr(file_or_df, "name") and file_or_df.name.endswith((".xlsx", ".xls")):
+                    is_excel = True
+                elif isinstance(file_or_df, str) and file_or_df.endswith((".xlsx", ".xls")):
+                    is_excel = True
+                    
+                if is_excel:
+                    self.raw_data = pd.read_excel(file_or_df)
+                else:
+                    self.raw_data = pd.read_csv(file_or_df)
             logger.info(f"Successfully loaded data with {len(self.raw_data)} rows.")
             self.processed_data = self.raw_data.copy()
             return self.raw_data

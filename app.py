@@ -196,11 +196,11 @@ with tab1:
     st.divider()
     
     st.markdown("### Step 1: Provide Base Data")
-    st.info("💡 **Tip:** Ensure your CSV contains a column for solvent names and numeric columns for your toxicity targets (e.g., `glucose_uptake`).", icon="ℹ️")
+    st.info("💡 **Tip:** Ensure your data (CSV or Excel) contains a column for solvent names and numeric columns for your toxicity targets.", icon="ℹ️")
     
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
-        uploaded_file = st.file_uploader("Upload Experimental CSV", type="csv")
+        uploaded_file = st.file_uploader("Upload Experimental Data", type=["csv", "xlsx", "xls"])
     with col2:
         st.markdown("<br><br>", unsafe_allow_html=True)
         if st.button("Use Sample Data", help="Loads a small pre-configured dataset."):
