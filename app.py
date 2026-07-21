@@ -101,37 +101,26 @@ def _get_smiles_for_names(solvent_names: list) -> dict:
     return {}
 
 def _add_structure_col(df: pd.DataFrame, smiles_map: dict) -> pd.DataFrame:
-    """Adds a 'Structure' ImageColumn (base64 PNG data URI) to a dataframe."""
-    try:
-        from rdkit import Chem
-        from rdkit.Chem import Draw
-        import base64
-        from io import BytesIO
-
-        img_tags = []
-        any_valid = False
-        for name in df["solvent_name"]:
-            smiles = smiles_map.get(str(name).strip().lower(), "")
-            img_data = None
-            if smiles and str(smiles).strip() not in ["", "nan", "Unknown"]:
-                try:
-                    mol = Chem.MolFromSmiles(str(smiles).strip())
-                    if mol:
-                        img = Draw.MolToImage(mol, size=(150, 150))
-                        buf = BytesIO()
-                        img.save(buf, format="PNG")
-                        img_data = f'data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}'
-                        any_valid = True
-                except Exception:
-                    pass
-            img_tags.append(img_data)
-
-        if any_valid:
-            out = df.copy()
-            out.insert(1, "Structure", img_tags)
-            return out
-    except ImportError:
-        pass
+    """Adds a 'Structure' ImageColumn (PubChem URL) to a dataframe."""
+    import urllib.parse
+    
+    img_urls = []
+    any_valid = False
+    
+    for name in df["solvent_name"]:
+        smiles = smiles_map.get(str(name).strip().lower(), "")
+        url = None
+        if smiles and str(smiles).strip() not in ["", "nan", "Unknown"]:
+            encoded_smiles = urllib.parse.quote(str(smiles).strip())
+            url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{encoded_smiles}/PNG"
+            any_valid = True
+        img_urls.append(url)
+        
+    if any_valid:
+        out = df.copy()
+        out.insert(1, "Structure", img_urls)
+        return out
+        
     return df
 
 def get_column_config(df_columns):
@@ -719,21 +708,31 @@ if st.session_state.current_tab == "Phase 3":
                                         if unc_col in results_df.columns:
                                             results_df.at[i, unc_col] = 0.0
                         
-                        # Calculate Overall Compatibility Score using Min-Max Normalization
+                        # Calculate Overall Compatibility Score using Global Min-Max & Geometric Mean
                         target_preds = [f"{t}_Prediction" for t in st.session_state.best_models.keys() if f"{t}_Prediction" in results_df.columns]
                         if target_preds:
-                            # Normalize each column to 0-1 (relative to the batch)
+                            import numpy as np
                             norm_df = results_df[target_preds].copy()
-                            for col in norm_df.columns:
-                                c_min, c_max = norm_df[col].min(), norm_df[col].max()
-                                if c_max > c_min:
-                                    norm_df[col] = (norm_df[col] - c_min) / (c_max - c_min)
-                                else:
-                                    norm_df[col] = 1.0 # If all values are identical
+                            y_train = st.session_state.get("y_processed", pd.DataFrame())
                             
-                            # Average the normalized scores and convert to percentage
-                            avg_scores = norm_df.mean(axis=1) * 100
-                            scores = [f"{round(s, 1)}%" for s in avg_scores]
+                            for col in norm_df.columns:
+                                target_name = col.replace("_Prediction", "")
+                                # Use global bounds from training data if available
+                                if target_name in y_train.columns:
+                                    c_min, c_max = y_train[target_name].min(), y_train[target_name].max()
+                                else:
+                                    c_min, c_max = norm_df[col].min(), norm_df[col].max()
+                                    
+                                if c_max > c_min:
+                                    norm_val = (norm_df[col] - c_min) / (c_max - c_min)
+                                    # Clip to [0,1] just in case a novel solvent goes slightly outside bounds
+                                    norm_df[col] = np.clip(norm_val, 0.001, 1.0)
+                                else:
+                                    norm_df[col] = 1.0
+                            
+                            # Geometric mean: requires ALL targets to be high. If one is low, the whole score tanks.
+                            geom_mean = np.exp(np.log(norm_df).mean(axis=1))
+                            scores = [f"{round(s * 100, 1)}%" for s in geom_mean]
                         else:
                             scores = ["0%"] * len(results_df)
                             
