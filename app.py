@@ -505,7 +505,7 @@ if st.session_state.current_tab == "Phase 2":
                         st.pyplot(fig_shap)
                         with st.expander("📖 How to Interpret this SHAP Plot", expanded=True):
                             st.markdown(
-                                \"\"\"
+                                """
                                 **SHAP (SHapley Additive exPlanations)** breaks down exactly how the AI makes its decisions. Here is how to read the chart above:
                                 
                                 * ↕️ **Y-Axis (Top to Bottom):** The most important features are at the top. The model relies heavily on these to predict your target.
@@ -513,7 +513,7 @@ if st.session_state.current_tab == "Phase 2":
                                 * 🎨 **Color (Red vs Blue):** **Red dots** mean the solvent had a *High* value for that specific feature. **Blue dots** mean it had a *Low* value. 
                                 
                                 **Example:** If you see a cluster of **Red dots** on the **Far Right** for *LogP*, it means: "When a solvent has a HIGH LogP, it drastically INCREASES the target prediction."
-                                \"\"\"
+                                """
                             )
                     else:
                         st.warning("SHAP explanation not available for this model type or SHAP is not installed.")
